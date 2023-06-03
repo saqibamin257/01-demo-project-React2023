@@ -98,7 +98,8 @@
 //Example-4 State in Class Component, Create 2 buttons for incremement and decrement counter.
 //#region Increment Decrement Counter
  import React from "react";
- import  ReactDOM  from "react-dom";
+ import ReactDOM from "react-dom/client";
+ import reportWebVitals from "./reportWebVitals";
 
 class Counter extends React.Component
 {
@@ -123,8 +124,17 @@ class Counter extends React.Component
     </div>
   }
 }
-const element =<Counter/>
+const element =<Counter/>;
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  element
+);
+
+reportWebVitals();
+
 ReactDOM.render(element,document.getElementById('root'));
+
+
 
 //#endregion
 
