@@ -97,46 +97,72 @@
 
 //Example-4 State in Class Component, Create 2 buttons for incremement and decrement counter.
 //#region Increment Decrement Counter
- import React from "react";
- import ReactDOM from "react-dom/client";
- import reportWebVitals from "./reportWebVitals";
+//  import React from "react";
+//  import ReactDOM from "react-dom/client";
+//  import reportWebVitals from "./reportWebVitals";
 
-class Counter extends React.Component
-{
-  constructor(props)
-  {
-    super(props);
-    console.log(this.props);
-  }
-  state={count:0};
-  increaseCount=()=>{
-    this.setState({count:this.state.count+1});
-  }
-  decreaseCount =()=>{
-    this.setState({count:this.state.count-1});
-  }
+// class Counter extends React.Component
+// {
+//   constructor(props)
+//   {
+//     super(props);
+//     console.log(this.props);
+//   }
+//   state={count:0};
+//   increaseCount=()=>{
+//     this.setState({count:this.state.count+1});
+//   }
+//   decreaseCount =()=>{
+//     this.setState({count:this.state.count-1});
+//   }
 
-  render(){
-    return <div>
-    <button onClick={this.increaseCount}>Increment Count</button>
-    <button onClick={this.decreaseCount}>Decrement Count</button>
-    <p><label>Count:{this.state.count}</label></p>
-    </div>
-  }
-}
-const element =<Counter/>;
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  element
-);
+//   render(){
+//     return <div>
+//     <button onClick={this.increaseCount}>Increment Count</button>
+//     <button onClick={this.decreaseCount}>Decrement Count</button>
+//     <p><label>Count:{this.state.count}</label></p>
+//     </div>
+//   }
+// }
+// const element =<Counter/>;
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(
+//   element
+// );
 
-reportWebVitals();
-
-ReactDOM.render(element,document.getElementById('root'));
+// reportWebVitals();
 
 
 
 //#endregion
 
+//Example-5: Message characters count.
+//#region Message characters count
+ import React from "react";
+ import ReactDOM from "react-dom/client";
+ import reportWebVitals from "./reportWebVitals";
 
+ class MessageCharactersCount extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={wordsCounter:0};
+  }
+  //state={wordsCounter:0} we can declare state here also without constructor.
+  onMessageChange=(text)=>{
+    this.setState({wordsCounter:text.length});
+  }
+  render(){
+    return<div>
+      <h3>Welcome to Characters Count</h3>
+      <label>Enter Text</label>
+      <textarea onChange={e=>this.onMessageChange(e.target.value)}></textarea>
+      <p><label>Total Characters are:{this.state.wordsCounter}</label></p>
+    </div>
+  }
+ }
+ const element = <MessageCharactersCount/>
+ const root = ReactDOM.createRoot(document.getElementById('root'));
+ root.render(element);
+ reportWebVitals();
+//#endregion
 
