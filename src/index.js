@@ -138,31 +138,112 @@
 
 //Example-5: Message characters count.
 //#region Message characters count
- import React from "react";
- import ReactDOM from "react-dom/client";
- import reportWebVitals from "./reportWebVitals";
+//  import React from "react";
+//  import ReactDOM from "react-dom/client";
+//  import reportWebVitals from "./reportWebVitals";
 
- class MessageCharactersCount extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={wordsCounter:0};
-  }
-  //state={wordsCounter:0} we can declare state here also without constructor.
-  onMessageChange=(text)=>{
-    this.setState({wordsCounter:text.length});
-  }
-  render(){
-    return<div>
-      <h3>Welcome to Characters Count</h3>
-      <label>Enter Text</label>
-      <textarea onChange={e=>this.onMessageChange(e.target.value)}></textarea>
-      <p><label>Total Characters are:{this.state.wordsCounter}</label></p>
-    </div>
-  }
- }
- const element = <MessageCharactersCount/>
- const root = ReactDOM.createRoot(document.getElementById('root'));
- root.render(element);
- reportWebVitals();
+//  class MessageCharactersCount extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={wordsCounter:0};
+//   }
+//   //state={wordsCounter:0} we can declare state here also without constructor.
+//   onMessageChange=(text)=>{
+//     this.setState({wordsCounter:text.length});
+//   }
+//   render(){
+//     return<div>
+//       <h3>Welcome to Characters Count</h3>
+//       <label>Enter Text</label>
+//       <textarea onChange={e=>this.onMessageChange(e.target.value)}></textarea>
+//       <p><label>Total Characters are:{this.state.wordsCounter}</label></p>
+//     </div>
+//   }
+//  }
+//  const element = <MessageCharactersCount/>
+//  const root = ReactDOM.createRoot(document.getElementById('root'));
+//  root.render(element);
+//  reportWebVitals();
 //#endregion
 
+//Example-6: Interaction between Components in React
+//Pass data from parent to child and child to parent
+//#region Pass data from parent to child and child to parent
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+
+class Employee extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={updatedSalary:null}
+  }
+
+  getUpdatedSalary = (salary) => {
+    this.setState({updatedSalary:salary});
+    }
+  render(){
+    return<div>
+      <h3>Employee Details ...</h3>
+      <p>
+        <label>Id:<b>{this.props.Id}</b></label>
+      </p>
+      <p>
+        <label>Name:<b>{this.props.Name}</b></label>
+      </p>
+      <p>
+        <label>Location:<b>{this.props.Location}</b></label>
+      </p>
+      <p>
+        <label>Total Salary:<b>{this.props.TotalSalary}</b></label>
+      </p>
+      <p>
+        <label>Updated Salary : <b>{this.state.updatedSalary}</b></label>
+      </p>
+      <Salary BasicSalary={this.props.BasicSalary} HRA={this.props.HRA} SpecialAllowance={this.props.SpecialAllowance}
+       onSalaryChanged={this.getUpdatedSalary}/>
+       {/* getUpdatedSalary is Parent function */}
+       
+    </div>
+  }
+}
+
+class Salary extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      basic:this.props.BasicSalary,
+      hra:this.props.HRA,
+      sa:this.props.SpecialAllowance
+    };
+  }
+  
+  updateSalary =()=>{
+    let salary = parseInt(this.state.basic) + parseInt(this.state.hra)+ parseInt(this.state.sa);
+    this.props.onSalaryChanged(salary); //callback event which pass to parent component
+    console.log("updated salary child component="+salary);
+  }
+
+  render(){
+    return<div>
+      <h3>Salary Details</h3>
+      <p>
+        <label>Basic Salary:<input type="text" defaultValue={this.state.basic} onChange={e=>this.setState({basic:e.target.value})}/></label>
+      </p>
+      <p>
+        <label>HRA:<input type="text" defaultValue={this.state.hra} onChange={e=>this.setState({hra:e.target.value})} /></label>
+      </p>
+      <p>
+        <label>Special Allowance:<input type="text" defaultValue={this.state.sa} onChange={e=>this.setState({sa:e.target.value})} /></label>
+      </p>
+      <button onClick={this.updateSalary}>Update Salary</button>      
+    </div>
+  }
+}
+
+const element=<Employee Id="1" Name="Saqib" Location="Karachi"
+               TotalSalary="3000" BasicSalary="3000" HRA="1000" SpecialAllowance="5000"/>
+const root= ReactDOM.createRoot(document.getElementById('root'));
+root.render(element);
+reportWebVitals();
+//#endregion
