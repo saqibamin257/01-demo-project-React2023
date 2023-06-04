@@ -313,72 +313,122 @@
 
 //#endregion
 
-//Example-8 change state from child by calling function from child to parent
+//Example-8 Context-2 change state from child by calling function from child to parent
 //Pass info from child to parent.
-//#region Call function from child to parent.
+//#region Context-2 Call function from child to parent.
+
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// const EmployeeContext=React.createContext({
+//   data:'',
+//   changeEmployeeInfo:()=>{}
+// });
+
+
+// class App extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       data:{
+//         Id:1,
+//         Name:"Saqib Amin",
+//         Location:"Birmingham",
+//         Salary:50000
+//       },
+//       changeEmployeeInfo:this.updateEmployee
+//     }
+//   }
+//   updateEmployee=()=>{
+//     this.setState({data:{Id:200,Name:"Mr Saqib Amin"}});
+//   }
+
+//   render(){
+//     return<div>
+//       <h3>Welcome to App Component</h3>
+//       <p>
+//         <label>Employee Id:{this.state.data.Id}</label>
+//       </p>
+//       <p>
+//         <label>Employee Name:{this.state.data.Name}</label>
+//         </p>
+//       <EmployeeContext.Provider value={this.state}>
+//         <Employee></Employee>
+//       </EmployeeContext.Provider>
+//     </div>
+//   }
+// }
+
+// class Employee extends React.Component{
+//   static contextType = EmployeeContext;
+//   render(){
+//     return<div>
+//       <h3>Welcome to Employee Component</h3>
+//       <p>
+//         <label>Employee ID:{this.context.data.Id}</label>
+//         </p>
+//         <p>
+//         <label>Employee Name:{this.context.data.Name}</label>
+//         </p>
+//         <button onClick={this.context.changeEmployeeInfo}>Update Employee Id</button>
+//     </div>
+//   }
+// }
+
+// const element = <App></App>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+
+
+//#endregion
+
+
+//Example-9 Map function and iteration
+//#region Map Function 
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
-const EmployeeContext=React.createContext({
-  data:'',
-  changeEmployeeInfo:()=>{}
-});
 
-
-class App extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      data:{
-        Id:1,
-        Name:"Saqib Amin",
-        Location:"Birmingham",
-        Salary:50000
-      },
-      changeEmployeeInfo:this.updateEmployee
-    }
-  }
-  updateEmployee=()=>{
-    this.setState({data:{Id:200,Name:"Mr Saqib Amin"}});
-  }
-
-  render(){
-    return<div>
-      <h3>Welcome to App Component</h3>
-      <p>
-        <label>Employee Id:{this.state.data.Id}</label>
-      </p>
-      <p>
-        <label>Employee Name:{this.state.data.Name}</label>
-        </p>
-      <EmployeeContext.Provider value={this.state}>
-        <Employee></Employee>
-      </EmployeeContext.Provider>
-    </div>
-  }
+function Employees(props){
+  return<div style={{border:"3px solid red"}}>
+    <p>
+      <label><b>Employee Id:{props.data.Id}</b></label>
+    </p>
+    <p>
+      <label><b>Employee Name:{props.data.Name}</b></label>
+    </p>
+    <p>
+      <label><b>Location:{props.data.Location}</b></label>
+    </p>
+    <p>
+      <label><b>Salary:{props.data.Salary}</b></label>
+    </p>
+  </div>
 }
 
-class Employee extends React.Component{
-  static contextType = EmployeeContext;
-  render(){
-    return<div>
-      <h3>Welcome to Employee Component</h3>
-      <p>
-        <label>Employee ID:{this.context.data.Id}</label>
-        </p>
-        <p>
-        <label>Employee Name:{this.context.data.Name}</label>
-        </p>
-        <button onClick={this.context.changeEmployeeInfo}>Update Employee Id</button>
+function DisplayEmployees(props){
+  const empList=props.employeeList;
+  const listElements =empList.map( (emp) =>
+        <Employees key={emp.Id} data={emp}></Employees>
+  );
+  return(
+    <div>
+      {listElements}
     </div>
-  }
+  );
 }
 
-const element = <App></App>
+const EmployeeData =[
+  {Id:"1",Name:"saqib",Location:"Karachi",Salary:4000},
+  {Id:"2",Name:"anwar",Location:"Lahore",Salary:3000},
+  {Id:"3",Name:"akram",Location:"Islamabad",Salary:2000},
+]
+const element = <DisplayEmployees employeeList={EmployeeData}></DisplayEmployees>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
-
-
 //#endregion
+
