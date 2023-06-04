@@ -250,67 +250,135 @@
 
 //Example-7: Pass parameters using Context
 //#region Context-1
-import React from "react";
-import ReactDOM  from "react-dom/client";
-import reportWebVitals from './reportWebVitals';
+// import React from "react";
+// import ReactDOM  from "react-dom/client";
+// import reportWebVitals from './reportWebVitals';
 
-const employeeContext = React.createContext();
+// const employeeContext = React.createContext();
+
+// class App extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       data:
+//       {
+//         Id:1,
+//         Name:'Saqib',
+//         Location:'Karachi',
+//         Salary:15000
+//       }       
+//     };
+//   }  
+//   changeEmployeeData=()=>{
+//     this.setState({data:{Id:102}});
+//   }
+//   render(){  
+//     return<div>      
+//       <h3>Welcome to App Component</h3>      
+//       <p><label>Employee Id:{this.state.data.Id}</label></p>      
+//       <employeeContext.Provider value={this.state.data}>
+//       <Employee></Employee>
+//       </employeeContext.Provider>
+//       <button onClick={this.changeEmployeeData}>Change Id</button>      
+//     </div>
+//   }
+// }
+
+// class Employee extends React.Component{
+// static contextType  = employeeContext;
+  
+//   render(){    
+//     return<div>      
+//       <h3>Welcome to Employee Component</h3>      
+//       <p><label>Employee Id:{this.context.Id}</label></p>      
+//       <Salary/>
+//     </div>
+//   }
+// }
+
+// class Salary extends React.Component{
+//   static contextType = employeeContext;
+//   render(){
+//     return<div>
+//       <h3>Welcome to Salary Component</h3>
+//       <p><label>Employee Id:{this.context.Id}</label></p>      
+//     </div>
+//   }
+// }
+
+// const element = <App></App>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+
+//#endregion
+
+//Example-8 change state from child by calling function from child to parent
+//Pass info from child to parent.
+//#region Call function from child to parent.
+import React from "react";
+import  ReactDOM  from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+
+const EmployeeContext=React.createContext({
+  data:'',
+  changeEmployeeInfo:()=>{}
+});
+
 
 class App extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      data:
-      {
+      data:{
         Id:1,
-        Name:'Saqib',
-        Location:'Karachi',
-        Salary:15000
-      }       
-    };
-  }  
-  changeEmployeeData=()=>{
-    this.setState({data:{Id:102}});
+        Name:"Saqib Amin",
+        Location:"Birmingham",
+        Salary:50000
+      },
+      changeEmployeeInfo:this.updateEmployee
+    }
   }
-  render(){  
-    return<div>      
-      <h3>Welcome to App Component</h3>      
-      <p><label>Employee Id:{this.state.data.Id}</label></p>      
-      <employeeContext.Provider value={this.state.data}>
-      <Employee></Employee>
-      </employeeContext.Provider>
-      <button onClick={this.changeEmployeeData}>Change Id</button>      
+  updateEmployee=()=>{
+    this.setState({data:{Id:200,Name:"Mr Saqib Amin"}});
+  }
+
+  render(){
+    return<div>
+      <h3>Welcome to App Component</h3>
+      <p>
+        <label>Employee Id:{this.state.data.Id}</label>
+      </p>
+      <p>
+        <label>Employee Name:{this.state.data.Name}</label>
+        </p>
+      <EmployeeContext.Provider value={this.state}>
+        <Employee></Employee>
+      </EmployeeContext.Provider>
     </div>
   }
 }
 
 class Employee extends React.Component{
-static contextType  = employeeContext;
-  
-  render(){    
-    return<div>      
-      <h3>Welcome to Employee Component</h3>      
-      <p><label>Employee Id:{this.context.Id}</label></p>      
-      <Salary/>
-    </div>
-  }
-}
-
-class Salary extends React.Component{
-  static contextType = employeeContext;
+  static contextType = EmployeeContext;
   render(){
     return<div>
-      <h3>Welcome to Salary Component</h3>
-      <p><label>Employee Id:{this.context.Id}</label></p>      
+      <h3>Welcome to Employee Component</h3>
+      <p>
+        <label>Employee ID:{this.context.data.Id}</label>
+        </p>
+        <p>
+        <label>Employee Name:{this.context.data.Name}</label>
+        </p>
+        <button onClick={this.context.changeEmployeeInfo}>Update Employee Id</button>
     </div>
   }
 }
 
-const element = <App></App>;
+const element = <App></App>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 
+
 //#endregion
-
-
