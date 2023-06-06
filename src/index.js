@@ -387,48 +387,107 @@
 
 //Example-9 Map function and iteration
 //#region Map Function 
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+
+// function Employees(props){
+//   return<div style={{border:"3px solid red"}}>
+//     <p>
+//       <label><b>Employee Id:{props.data.Id}</b></label>
+//     </p>
+//     <p>
+//       <label><b>Employee Name:{props.data.Name}</b></label>
+//     </p>
+//     <p>
+//       <label><b>Location:{props.data.Location}</b></label>
+//     </p>
+//     <p>
+//       <label><b>Salary:{props.data.Salary}</b></label>
+//     </p>
+//   </div>
+// }
+
+// function DisplayEmployees(props){
+//   const empList=props.employeeList;
+//   const listElements =empList.map( (emp) =>
+//         <Employees key={emp.Id} data={emp}></Employees>
+//   );
+//   return(
+//     <div>
+//       {listElements}
+//     </div>
+//   );
+// }
+
+// const EmployeeData =[
+//   {Id:"1",Name:"saqib",Location:"Karachi",Salary:4000},
+//   {Id:"2",Name:"anwar",Location:"Lahore",Salary:3000},
+//   {Id:"3",Name:"akram",Location:"Islamabad",Salary:2000},
+// ]
+// const element = <DisplayEmployees employeeList={EmployeeData}></DisplayEmployees>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//Example-10 Calling Rest API
+//#region Calling Rest API 
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
+class EmployeeComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      employees:[]
+    }
+  }
+  componentDidMount(){
+    fetch("http://localhost:7037/api/employee")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            employees: result
+          });
+        }
+      );
+  };
 
-function Employees(props){
-  return<div style={{border:"3px solid red"}}>
-    <p>
-      <label><b>Employee Id:{props.data.Id}</b></label>
-    </p>
-    <p>
-      <label><b>Employee Name:{props.data.Name}</b></label>
-    </p>
-    <p>
-      <label><b>Location:{props.data.Location}</b></label>
-    </p>
-    <p>
-      <label><b>Salary:{props.data.Salary}</b></label>
-    </p>
-  </div>
+  render(){
+    return (
+      <div>
+        <h2>Employees Data...</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+          {this.state.employees.map(emp => (
+            <tr key={emp.id}>
+              <td>{emp.id}</td>
+              <td>{emp.name}</td>
+              <td>{emp.location}</td>
+              <td>{emp.salary}</td>
+              </tr>
+  ))}      
+          </tbody>
+        </table>
+      </div>
+      );
+  }
 }
 
-function DisplayEmployees(props){
-  const empList=props.employeeList;
-  const listElements =empList.map( (emp) =>
-        <Employees key={emp.Id} data={emp}></Employees>
-  );
-  return(
-    <div>
-      {listElements}
-    </div>
-  );
-}
-
-const EmployeeData =[
-  {Id:"1",Name:"saqib",Location:"Karachi",Salary:4000},
-  {Id:"2",Name:"anwar",Location:"Lahore",Salary:3000},
-  {Id:"3",Name:"akram",Location:"Islamabad",Salary:2000},
-]
-const element = <DisplayEmployees employeeList={EmployeeData}></DisplayEmployees>;
+const element =<EmployeeComponent></EmployeeComponent>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 //#endregion
-
