@@ -434,6 +434,66 @@
 
 //Example-10 Calling Rest API
 //#region Calling Rest API 
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class EmployeeComponent extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       employees:[]
+//     }
+//   }
+//   componentDidMount(){
+//     fetch("http://localhost:7037/api/employee")
+//       .then(res => res.json())
+//       .then(
+//         (result) => {
+//           this.setState({
+//             employees: result
+//           });
+//         }
+//       );
+//   };
+
+//   render(){
+//     return (
+//       <div>
+//         <h2>Employees Data...</h2>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>Id</th>
+//               <th>Name</th>
+//               <th>Location</th>
+//               <th>Salary</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//           {this.state.employees.map(emp => (
+//             <tr key={emp.employeeId}>
+//               <td>{emp.employeeId}</td>
+//               <td>{emp.name}</td>
+//               <td>{emp.location}</td>
+//               <td>{emp.salary}</td>
+//               </tr>
+//   ))}      
+//           </tbody>
+//         </table>
+//       </div>
+//       );
+//   }
+// }
+
+// const element =<EmployeeComponent></EmployeeComponent>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//Example-10 Sending POST Request
+//#region Sending Post Request 
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
@@ -441,51 +501,58 @@ import reportWebVitals from "./reportWebVitals";
 class EmployeeComponent extends React.Component{
   constructor(props){
     super(props);
+    
     this.state={
-      employees:[]
-    }
-  }
-  componentDidMount(){
-    fetch("http://localhost:7037/api/employee")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            employees: result
-          });
-        }
-      );
-  };
+      message:"",
+      name:"",
+      location:"",
+      salary:0      
+     };
+  }  
+
+  onCreateEmployee =()=>
+  {
+    let employee={
+      employeeId:0,      
+      name:this.state.name,
+      location:this.state.location,
+      salary:parseInt(this.state.salary)
+    };
+     
+    console.log(employee);
+    fetch('http://localhost:7037/api/Employee',{
+      method: 'POST',
+      headers:{'Content-type':'application/json'},
+        body: JSON.stringify(employee)
+    }).then(r=>r.json()).then(res=>{
+      if(res){
+        console.log(res);
+        this.setState({message:'New Employee is Created Successfully'});
+      }
+    });
+  }  
 
   render(){
-    return (
+    return(
       <div>
-        <h2>Employees Data...</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Salary</th>
-            </tr>
-          </thead>
-          <tbody>
-          {this.state.employees.map(emp => (
-            <tr key={emp.id}>
-              <td>{emp.id}</td>
-              <td>{emp.name}</td>
-              <td>{emp.location}</td>
-              <td>{emp.salary}</td>
-              </tr>
-  ))}      
-          </tbody>
-        </table>
+        <h2>Please Enter Employee Details To Add...</h2>        
+        <p>          
+          <label>Employee Name : <input type="text" onChange={e=>this.setState({name:e.target.value})} ></input></label>          
+        </p>
+        <p>
+          <label>Employee Location : <input type="text" onChange={e=>this.setState({location:e.target.value})}></input></label>
+        </p>
+        <p>
+          <label>Employee Salary : <input type="text" onChange={e=>this.setState({salary:e.target.value})}></input></label>
+        </p>
+        <button onClick={this.onCreateEmployee}>Create</button>
+        <p>
+          <label>{this.state.message}</label>
+        </p>
       </div>
-      );
+    );
   }
 }
-
 const element =<EmployeeComponent></EmployeeComponent>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
