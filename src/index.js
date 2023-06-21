@@ -494,66 +494,127 @@
 
 //Example-10 Sending POST Request
 //#region Sending Post Request 
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class EmployeeComponent extends React.Component{
+//   constructor(props){
+//     super(props);
+    
+//     this.state={
+//       message:"",
+//       name:"",
+//       location:"",
+//       salary:0      
+//      };
+//   }  
+
+//   onCreateEmployee =()=>
+//   {
+//     let employee={
+//       employeeId:0,      
+//       name:this.state.name,
+//       location:this.state.location,
+//       salary:parseInt(this.state.salary)
+//     };
+     
+//     console.log(employee);
+//     fetch('http://localhost:7037/api/Employee',{
+//       method: 'POST',
+//       headers:{'Content-type':'application/json'},
+//         body: JSON.stringify(employee)
+//     }).then(r=>r.json()).then(res=>{
+//       if(res){
+//         console.log(res);
+//         this.setState({message:'New Employee is Created Successfully'});
+//       }
+//     });
+//   }  
+
+//   render(){
+//     return(
+//       <div>
+//         <h2>Please Enter Employee Details To Add...</h2>        
+//         <p>          
+//           <label>Employee Name : <input type="text" onChange={e=>this.setState({name:e.target.value})} ></input></label>          
+//         </p>
+//         <p>
+//           <label>Employee Location : <input type="text" onChange={e=>this.setState({location:e.target.value})}></input></label>
+//         </p>
+//         <p>
+//           <label>Employee Salary : <input type="text" onChange={e=>this.setState({salary:e.target.value})}></input></label>
+//         </p>
+//         <button onClick={this.onCreateEmployee}>Create</button>
+//         <p>
+//           <label>{this.state.message}</label>
+//         </p>
+//       </div>
+//     );
+//   }
+// }
+// const element =<EmployeeComponent></EmployeeComponent>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region-Exe-11- SpreadOperator-Keep State Of All Controls 
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
-class EmployeeComponent extends React.Component{
+class Employee extends React.Component{
   constructor(props){
     super(props);
-    
     this.state={
-      message:"",
-      name:"",
-      location:"",
-      salary:0      
-     };
-  }  
-
-  onCreateEmployee =()=>
-  {
-    let employee={
-      employeeId:0,      
-      name:this.state.name,
-      location:this.state.location,
-      salary:parseInt(this.state.salary)
-    };
-     
-    console.log(employee);
-    fetch('http://localhost:7037/api/Employee',{
-      method: 'POST',
-      headers:{'Content-type':'application/json'},
-        body: JSON.stringify(employee)
-    }).then(r=>r.json()).then(res=>{
-      if(res){
-        console.log(res);
-        this.setState({message:'New Employee is Created Successfully'});
+      employee:{
+        id:'',
+        name:'',
+        location:'',
+        salary:''
       }
-    });
-  }  
+    }
+  }
+  changeHandler=(e)=>{
+    const name = e.target.name;
+    const value=e.target.value;
+    this.setState(
+      {
+        employee:{...this.state.employee,
+        [name]:value
+      }}
+    );
+  }
+  onCreateEmployee=()=>{
+    console.log(this.state.employee);
+  }
+
+
 
   render(){
     return(
       <div>
-        <h2>Please Enter Employee Details To Add...</h2>        
-        <p>          
-          <label>Employee Name : <input type="text" onChange={e=>this.setState({name:e.target.value})} ></input></label>          
+        <p>
+        <label>EmployeeId:<input type="text" name="id" value={this.state.employee.id} onChange={this.changeHandler}></input></label>
         </p>
         <p>
-          <label>Employee Location : <input type="text" onChange={e=>this.setState({location:e.target.value})}></input></label>
+        <label>Name:<input type="text" name="name" value={this.state.employee.name} onChange={this.changeHandler}></input></label>
         </p>
         <p>
-          <label>Employee Salary : <input type="text" onChange={e=>this.setState({salary:e.target.value})}></input></label>
+        <label>Location:<input type="text" name="location" value={this.state.employee.location} onChange={this.changeHandler}></input></label>
         </p>
-        <button onClick={this.onCreateEmployee}>Create</button>
         <p>
-          <label>{this.state.message}</label>
+        <label>Salary:<input type="text" name="salary" value={this.state.employee.salary} onChange={this.changeHandler}></input></label>
         </p>
+        <p>
+          <button onClick={this.onCreateEmployee}>CreateEmployee</button>
+        </p>        
       </div>
     );
-  }
+  }  
 }
-const element =<EmployeeComponent></EmployeeComponent>
+const element=<Employee></Employee>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
