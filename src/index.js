@@ -560,62 +560,138 @@
 //#endregion
 
 //#region-Exe-11- SpreadOperator-Keep State Of All Controls 
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class Employee extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       employee:{
+//         id:'',
+//         name:'',
+//         location:'',
+//         salary:''
+//       }
+//     }
+//   }
+//   changeHandler=(e)=>{
+//     const name = e.target.name;
+//     const value=e.target.value;
+//     this.setState(
+//       {
+//         employee:{...this.state.employee,
+//         [name]:value
+//       }}
+//     );
+//   }
+//   onCreateEmployee=()=>{
+//     console.log(this.state.employee);
+//   }
+
+
+
+//   render(){
+//     return(
+//       <div>
+//         <p>
+//         <label>EmployeeId:<input type="text" name="id" value={this.state.employee.id} onChange={this.changeHandler}></input></label>
+//         </p>
+//         <p>
+//         <label>Name:<input type="text" name="name" value={this.state.employee.name} onChange={this.changeHandler}></input></label>
+//         </p>
+//         <p>
+//         <label>Location:<input type="text" name="location" value={this.state.employee.location} onChange={this.changeHandler}></input></label>
+//         </p>
+//         <p>
+//         <label>Salary:<input type="text" name="salary" value={this.state.employee.salary} onChange={this.changeHandler}></input></label>
+//         </p>
+//         <p>
+//           <button onClick={this.onCreateEmployee}>CreateEmployee</button>
+//         </p>        
+//       </div>
+//     );
+//   }  
+// }
+// const element=<Employee></Employee>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+
+//#region-Exe-12- Formic Controls 
+
 import React from "react";
 import  ReactDOM  from "react-dom/client";
+import {useFormik } from 'formik';
 import reportWebVitals from "./reportWebVitals";
 
-class Employee extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      employee:{
-        id:'',
-        name:'',
-        location:'',
-        salary:''
-      }
-    }
-  }
-  changeHandler=(e)=>{
-    const name = e.target.name;
-    const value=e.target.value;
-    this.setState(
-      {
-        employee:{...this.state.employee,
-        [name]:value
-      }}
-    );
-  }
-  onCreateEmployee=()=>{
-    console.log(this.state.employee);
-  }
+ const SignupForm = () => { 
+  const formik = useFormik({ 
+    initialValues: {
+      name:"",
+      location:"", 
+      email: "", 
+      salary:""
+    }, 
+    onSubmit: (values) => { 
+      alert(JSON.stringify(values, null,2)); 
+    },
+  });
+  
+  return ( 
+    <form onSubmit={formik.handleSubmit}>
+      <p>
+      <label htmlFor="name">Name :</label> 
+      <input 
+        id="name" 
+        name="name" 
+        type="text" 
+        onChange={formik.handleChange} 
+        value={formik.values.name} 
+      />
+      </p>
+      <p>
+      <label htmlFor="name">Location :</label> 
+      <input 
+        id="location" 
+        name="location" 
+        type="text" 
+        onChange={formik.handleChange} 
+        value={formik.values.location} 
+      />
+      </p>      
+      <p>
+      <label htmlFor="email">Email Address :</label> 
+      <input 
+        id="email" 
+        name="email" 
+        type="email" 
+        onChange={formik.handleChange} 
+        value={formik.values.email} 
+      />
+      </p>
+      <p>
+      <label htmlFor="name">Salary :</label> 
+      <input 
+        id="salary" 
+        name="salary" 
+        type="text" 
+        onChange={formik.handleChange} 
+        value={formik.values.salary} 
+      />
+      </p>        
+      <button type="submit">Submit</button>        
+    </form> 
+  ); 
+}; 
 
-
-
-  render(){
-    return(
-      <div>
-        <p>
-        <label>EmployeeId:<input type="text" name="id" value={this.state.employee.id} onChange={this.changeHandler}></input></label>
-        </p>
-        <p>
-        <label>Name:<input type="text" name="name" value={this.state.employee.name} onChange={this.changeHandler}></input></label>
-        </p>
-        <p>
-        <label>Location:<input type="text" name="location" value={this.state.employee.location} onChange={this.changeHandler}></input></label>
-        </p>
-        <p>
-        <label>Salary:<input type="text" name="salary" value={this.state.employee.salary} onChange={this.changeHandler}></input></label>
-        </p>
-        <p>
-          <button onClick={this.onCreateEmployee}>CreateEmployee</button>
-        </p>        
-      </div>
-    );
-  }  
-}
-const element=<Employee></Employee>
+const element=<SignupForm/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
-//#endregion
+
+
+
