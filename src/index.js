@@ -623,10 +623,116 @@
 
 //#region-Exe-12- Formic Controls 
 
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import {useFormik } from 'formik';
+// import reportWebVitals from "./reportWebVitals";
+
+//  const SignupForm = () => { 
+//   const formik = useFormik({ 
+//     initialValues: {
+//       name:"",
+//       location:"", 
+//       email: "", 
+//       salary:""
+//     }, 
+//     onSubmit: (values) => { 
+//       alert(JSON.stringify(values, null,2)); 
+//     },
+//   });
+  
+//   return ( 
+//     <form onSubmit={formik.handleSubmit}>
+//       <p>
+//       <label htmlFor="name">Name :</label> 
+//       <input 
+//         id="name" 
+//         name="name" 
+//         type="text" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.name} 
+//       />
+//       </p>
+//       <p>
+//       <label htmlFor="name">Location :</label> 
+//       <input 
+//         id="location" 
+//         name="location" 
+//         type="text" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.location} 
+//       />
+//       </p>      
+//       <p>
+//       <label htmlFor="email">Email Address :</label> 
+//       <input 
+//         id="email" 
+//         name="email" 
+//         type="email" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.email} 
+//       />
+//       </p>
+//       <p>
+//       <label htmlFor="name">Salary :</label> 
+//       <input 
+//         id="salary" 
+//         name="salary" 
+//         type="text" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.salary} 
+//       />
+//       </p>        
+//       <button type="submit">Submit</button>        
+//     </form> 
+//   ); 
+// }; 
+
+// const element=<SignupForm/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//Exe-13 form validation using formik
+//Employee Name: 1.Required 2. MaxLength 20 Characters
+//Employee Location 1. Required
+//Employee Email ID  1. Required 2. Email Pattern 
+//#region FormValidation using formik
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import {useFormik } from 'formik';
 import reportWebVitals from "./reportWebVitals";
+
+//validation function
+const validateEmployee = (empData) =>
+{
+  const errors={};
+  if(!empData.name)
+  {
+    errors.name="Please enter employee name";
+  }
+  else if(empData.name.length >20)
+  {
+    errors.name="Name can not exceed 20 characters"
+  }
+  if(!empData.location)
+  {
+    errors.location="Please enter location."
+  }
+  if(!empData.salary)
+  {
+    errors.salary ="Please enter salary."
+  }
+  if(!empData.email)
+  {
+    errors.email="Please enter email."
+  }
+  else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(empData.email)) {
+    errors.email = 'Invalid email address';
+  }
+  return errors;
+};
 
  const SignupForm = () => { 
   const formik = useFormik({ 
@@ -639,6 +745,7 @@ import reportWebVitals from "./reportWebVitals";
     onSubmit: (values) => { 
       alert(JSON.stringify(values, null,2)); 
     },
+    validate:validateEmployee,
   });
   
   return ( 
@@ -650,8 +757,10 @@ import reportWebVitals from "./reportWebVitals";
         name="name" 
         type="text" 
         onChange={formik.handleChange} 
-        value={formik.values.name} 
-      />
+        value={formik.values.name}
+        onBlur={formik.handleBlur} 
+      />      
+      {formik.touched.name && formik.errors.name? <span style={{color:'red'}}>{formik.errors.name}</span>:null}
       </p>
       <p>
       <label htmlFor="name">Location :</label> 
@@ -661,7 +770,9 @@ import reportWebVitals from "./reportWebVitals";
         type="text" 
         onChange={formik.handleChange} 
         value={formik.values.location} 
+        onBlur={formik.handleBlur}
       />
+      {formik.touched.location && formik.errors.location?<span style={{color:'red'}}>{formik.errors.location}</span>:null}
       </p>      
       <p>
       <label htmlFor="email">Email Address :</label> 
@@ -670,8 +781,10 @@ import reportWebVitals from "./reportWebVitals";
         name="email" 
         type="email" 
         onChange={formik.handleChange} 
-        value={formik.values.email} 
+        value={formik.values.email}
+        onBlur={formik.handleBlur} 
       />
+      {formik.touched.email && formik.errors.email?<span style={{color:'red'}}>{formik.errors.email}</span>:null}
       </p>
       <p>
       <label htmlFor="name">Salary :</label> 
@@ -680,8 +793,10 @@ import reportWebVitals from "./reportWebVitals";
         name="salary" 
         type="text" 
         onChange={formik.handleChange} 
-        value={formik.values.salary} 
+        value={formik.values.salary}
+        onBlur={formik.handleBlur} 
       />
+      {formik.touched.salary && formik.errors.salary?<span style={{color:'red'}}>{formik.errors.salary}</span>:null}
       </p>        
       <button type="submit">Submit</button>        
     </form> 
@@ -692,6 +807,5 @@ const element=<SignupForm/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
-
-
+//#endregion
 
