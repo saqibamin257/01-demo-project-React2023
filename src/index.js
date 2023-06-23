@@ -694,45 +694,130 @@
 // reportWebVitals();
 //#endregion
 
-//Exe-13 form validation using formik
-//Employee Name: 1.Required 2. MaxLength 20 Characters
-//Employee Location 1. Required
-//Employee Email ID  1. Required 2. Email Pattern 
+// //Exe-13 form validation using formik
+// //Employee Name: 1.Required 2. MaxLength 20 Characters
+// //Employee Location 1. Required
+// //Employee Email ID  1. Required 2. Email Pattern 
+// //#region FormValidation using formik
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import {useFormik } from 'formik';
+// import reportWebVitals from "./reportWebVitals";
+
+// //validation function
+// const validateEmployee = (empData) =>
+// {
+//   const errors={};
+//   if(!empData.name)
+//   {
+//     errors.name="Please enter employee name";
+//   }
+//   else if(empData.name.length >20)
+//   {
+//     errors.name="Name can not exceed 20 characters"
+//   }
+//   if(!empData.location)
+//   {
+//     errors.location="Please enter location."
+//   }
+//   if(!empData.salary)
+//   {
+//     errors.salary ="Please enter salary."
+//   }
+//   if(!empData.email)
+//   {
+//     errors.email="Please enter email."
+//   }
+//   else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(empData.email)) {
+//     errors.email = 'Invalid email address';
+//   }
+//   return errors;
+// };
+
+//  const SignupForm = () => { 
+//   const formik = useFormik({ 
+//     initialValues: {
+//       name:"",
+//       location:"", 
+//       email: "", 
+//       salary:""
+//     }, 
+//     onSubmit: (values) => { 
+//       alert(JSON.stringify(values, null,2)); 
+//     },
+//     validate:validateEmployee,
+//   });
+  
+//   return ( 
+//     <form onSubmit={formik.handleSubmit}>
+//       <p>
+//       <label htmlFor="name">Name :</label> 
+//       <input 
+//         id="name" 
+//         name="name" 
+//         type="text" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.name}
+//         onBlur={formik.handleBlur} 
+//       />      
+//       {formik.touched.name && formik.errors.name? <span style={{color:'red'}}>{formik.errors.name}</span>:null}
+//       </p>
+//       <p>
+//       <label htmlFor="name">Location :</label> 
+//       <input 
+//         id="location" 
+//         name="location" 
+//         type="text" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.location} 
+//         onBlur={formik.handleBlur}
+//       />
+//       {formik.touched.location && formik.errors.location?<span style={{color:'red'}}>{formik.errors.location}</span>:null}
+//       </p>      
+//       <p>
+//       <label htmlFor="email">Email Address :</label> 
+//       <input 
+//         id="email" 
+//         name="email" 
+//         type="email" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.email}
+//         onBlur={formik.handleBlur} 
+//       />
+//       {formik.touched.email && formik.errors.email?<span style={{color:'red'}}>{formik.errors.email}</span>:null}
+//       </p>
+//       <p>
+//       <label htmlFor="name">Salary :</label> 
+//       <input 
+//         id="salary" 
+//         name="salary" 
+//         type="text" 
+//         onChange={formik.handleChange} 
+//         value={formik.values.salary}
+//         onBlur={formik.handleBlur} 
+//       />
+//       {formik.touched.salary && formik.errors.salary?<span style={{color:'red'}}>{formik.errors.salary}</span>:null}
+//       </p>        
+//       <button type="submit">Submit</button>        
+//     </form> 
+//   ); 
+// }; 
+
+// const element=<SignupForm/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+// //#endregion
+
+
+//Exe-14 form validation using Yup library
+//use formik.getFieldProps to shorten the code, no need to use onChange, value, onBlur
 //#region FormValidation using formik
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import {useFormik } from 'formik';
+import * as yup from 'yup';
 import reportWebVitals from "./reportWebVitals";
-
-//validation function
-const validateEmployee = (empData) =>
-{
-  const errors={};
-  if(!empData.name)
-  {
-    errors.name="Please enter employee name";
-  }
-  else if(empData.name.length >20)
-  {
-    errors.name="Name can not exceed 20 characters"
-  }
-  if(!empData.location)
-  {
-    errors.location="Please enter location."
-  }
-  if(!empData.salary)
-  {
-    errors.salary ="Please enter salary."
-  }
-  if(!empData.email)
-  {
-    errors.email="Please enter email."
-  }
-  else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(empData.email)) {
-    errors.email = 'Invalid email address';
-  }
-  return errors;
-};
 
  const SignupForm = () => { 
   const formik = useFormik({ 
@@ -745,57 +830,40 @@ const validateEmployee = (empData) =>
     onSubmit: (values) => { 
       alert(JSON.stringify(values, null,2)); 
     },
-    validate:validateEmployee,
+    validationSchema:yup.object({
+      name:yup.string().max(20,'name should not exceed 20 characters')
+      .required('Please enter employee name'),
+
+      location:yup.string().required('Please enter location'),
+
+      email:yup.string().required('Please enter email id')
+            .email('Invalid email address'),
+      
+      salary:yup.string().required('Please enter salary'),
+    }),
+    
   });
   
   return ( 
     <form onSubmit={formik.handleSubmit}>
       <p>
       <label htmlFor="name">Name :</label> 
-      <input 
-        id="name" 
-        name="name" 
-        type="text" 
-        onChange={formik.handleChange} 
-        value={formik.values.name}
-        onBlur={formik.handleBlur} 
-      />      
+      <input name="name" type="text" {...formik.getFieldProps("name")} />      
       {formik.touched.name && formik.errors.name? <span style={{color:'red'}}>{formik.errors.name}</span>:null}
       </p>
       <p>
       <label htmlFor="name">Location :</label> 
-      <input 
-        id="location" 
-        name="location" 
-        type="text" 
-        onChange={formik.handleChange} 
-        value={formik.values.location} 
-        onBlur={formik.handleBlur}
-      />
+      <input name="location" type="text" {...formik.getFieldProps("location")} />
       {formik.touched.location && formik.errors.location?<span style={{color:'red'}}>{formik.errors.location}</span>:null}
       </p>      
       <p>
       <label htmlFor="email">Email Address :</label> 
-      <input 
-        id="email" 
-        name="email" 
-        type="email" 
-        onChange={formik.handleChange} 
-        value={formik.values.email}
-        onBlur={formik.handleBlur} 
-      />
+      <input name="email" type="email" {...formik.getFieldProps("email")} />
       {formik.touched.email && formik.errors.email?<span style={{color:'red'}}>{formik.errors.email}</span>:null}
       </p>
       <p>
       <label htmlFor="name">Salary :</label> 
-      <input 
-        id="salary" 
-        name="salary" 
-        type="text" 
-        onChange={formik.handleChange} 
-        value={formik.values.salary}
-        onBlur={formik.handleBlur} 
-      />
+      <input name="salary" type="text" {...formik.getFieldProps("salary")} />
       {formik.touched.salary && formik.errors.salary?<span style={{color:'red'}}>{formik.errors.salary}</span>:null}
       </p>        
       <button type="submit">Submit</button>        
