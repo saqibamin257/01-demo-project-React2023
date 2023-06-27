@@ -810,67 +810,156 @@
 // //#endregion
 
 
-//Exe-14 form validation using Yup library
-//use formik.getFieldProps to shorten the code, no need to use onChange, value, onBlur
+// //Exe-14 form validation using Yup library
+// //use formik.getFieldProps to shorten the code, no need to use onChange, value, onBlur
+// //#region FormValidation using formik
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import {useFormik } from 'formik';
+// import * as yup from 'yup';
+// import reportWebVitals from "./reportWebVitals";
+
+//  const SignupForm = () => { 
+//   const formik = useFormik({ 
+//     initialValues: {
+//       name:"",
+//       location:"", 
+//       email: "", 
+//       salary:""
+//     }, 
+//     onSubmit: (values) => { 
+//       alert(JSON.stringify(values, null,2)); 
+//     },
+//     validationSchema:yup.object({
+//       name:yup.string().max(20,'name should not exceed 20 characters')
+//       .required('Please enter employee name'),
+
+//       location:yup.string().required('Please enter location'),
+
+//       email:yup.string().required('Please enter email id')
+//             .email('Invalid email address'),
+      
+//       salary:yup.string().required('Please enter salary'),
+//     }),
+    
+//   });
+  
+//   return ( 
+//     <form onSubmit={formik.handleSubmit}>
+//       <p>
+//       <label htmlFor="name">Name :</label> 
+//       <input name="name" type="text" {...formik.getFieldProps("name")} />      
+//       {formik.touched.name && formik.errors.name? <span style={{color:'red'}}>{formik.errors.name}</span>:null}
+//       </p>
+//       <p>
+//       <label htmlFor="name">Location :</label> 
+//       <input name="location" type="text" {...formik.getFieldProps("location")} />
+//       {formik.touched.location && formik.errors.location?<span style={{color:'red'}}>{formik.errors.location}</span>:null}
+//       </p>      
+//       <p>
+//       <label htmlFor="email">Email Address :</label> 
+//       <input name="email" type="email" {...formik.getFieldProps("email")} />
+//       {formik.touched.email && formik.errors.email?<span style={{color:'red'}}>{formik.errors.email}</span>:null}
+//       </p>
+//       <p>
+//       <label htmlFor="name">Salary :</label> 
+//       <input name="salary" type="text" {...formik.getFieldProps("salary")} />
+//       {formik.touched.salary && formik.errors.salary?<span style={{color:'red'}}>{formik.errors.salary}</span>:null}
+//       </p>        
+//       <button type="submit">Submit</button>        
+//     </form> 
+//   ); 
+// }; 
+
+// const element=<SignupForm/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+// //#endregion
+
+//Exe-15 form validation using Formik built in Components
 //#region FormValidation using formik
 import React from "react";
 import  ReactDOM  from "react-dom/client";
-import {useFormik } from 'formik';
+import { useFormik, Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import reportWebVitals from "./reportWebVitals";
 
+
  const SignupForm = () => { 
-  const formik = useFormik({ 
-    initialValues: {
-      name:"",
-      location:"", 
-      email: "", 
-      salary:""
-    }, 
-    onSubmit: (values) => { 
-      alert(JSON.stringify(values, null,2)); 
-    },
-    validationSchema:yup.object({
-      name:yup.string().max(20,'name should not exceed 20 characters')
-      .required('Please enter employee name'),
+  return (
+    <Formik initialValues={{
+      Id: '',
 
-      location:yup.string().required('Please enter location'),
+      Name: '',
 
-      email:yup.string().required('Please enter email id')
-            .email('Invalid email address'),
+      Location: '',
+
+      Salary:'',
+
+      EmailId:'',
+
+      Designation:''
+    }}
+    validationSchema={yup.object({
+
+      Name:yup.string().max(20,'Name should not exceed 20 Characters')
+
+      .required('Please Enter Employee Name'),
+
+      Location: yup.string()
+
+        .required('Please Enter Employee Location'),
+
+      EmailId: yup.string()
+
+        .email('Invalid email address')
+
+        .required('Please Enter Email Id'),
       
-      salary:yup.string().required('Please enter salary'),
-    }),
-    
-  });
-  
-  return ( 
-    <form onSubmit={formik.handleSubmit}>
-      <p>
-      <label htmlFor="name">Name :</label> 
-      <input name="name" type="text" {...formik.getFieldProps("name")} />      
-      {formik.touched.name && formik.errors.name? <span style={{color:'red'}}>{formik.errors.name}</span>:null}
-      </p>
-      <p>
-      <label htmlFor="name">Location :</label> 
-      <input name="location" type="text" {...formik.getFieldProps("location")} />
-      {formik.touched.location && formik.errors.location?<span style={{color:'red'}}>{formik.errors.location}</span>:null}
-      </p>      
-      <p>
-      <label htmlFor="email">Email Address :</label> 
-      <input name="email" type="email" {...formik.getFieldProps("email")} />
-      {formik.touched.email && formik.errors.email?<span style={{color:'red'}}>{formik.errors.email}</span>:null}
-      </p>
-      <p>
-      <label htmlFor="name">Salary :</label> 
-      <input name="salary" type="text" {...formik.getFieldProps("salary")} />
-      {formik.touched.salary && formik.errors.salary?<span style={{color:'red'}}>{formik.errors.salary}</span>:null}
-      </p>        
-      <button type="submit">Submit</button>        
-    </form> 
-  ); 
-}; 
+      Designation: yup.number().required('Please select a employee designation.')
 
+    })} onSubmit= {values => {
+      alert(JSON.stringify(values));
+    }}    
+    >
+      {(props) => (
+      <div>
+        <h2>Enter Employee Details ...</h2>
+        <Form>
+          <p>
+            <label htmlFor="Id">Employee Id</label>
+            <Field name="Id" type="text"></Field>
+          </p>
+          
+          <p>
+            <label htmlFor="Name">Employee Name</label>
+            <Field name="Name" type="text"></Field>
+            <ErrorMessage name="Name"></ErrorMessage>
+          </p>
+          
+          <p>
+          <label htmlFor="EmailId">Employee Email ID </label>
+          <Field name="EmailId" type="text"></Field>
+          <ErrorMessage name="EmailId"></ErrorMessage>
+          </p>
+          
+          <p>
+                <label>Employee Designation : </label>
+                <Field name = "Designation" as = "select">
+                  <option value="">--Select Designation--</option>
+                  <option value = "1">Software Engineer</option>
+                  <option value = "2">Senior Software Engineer</option>
+                  <option value = "3">Lead</option>
+                </Field>
+                <ErrorMessage name = "Designation"></ErrorMessage>
+          </p>
+          <button type="submit" disabled={!props.isValid}>Submit</button>
+        </Form>
+      </div>)}
+    </Formik>
+  ); 
+}
 const element=<SignupForm/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
