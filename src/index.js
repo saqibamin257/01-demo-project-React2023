@@ -559,7 +559,8 @@
 // reportWebVitals();
 //#endregion
 
-//#region-Exe-11- SpreadOperator-Keep State Of All Controls 
+//Exe-11
+// #region-Exe-11- SpreadOperator-Keep State Of All Controls 
 // import React from "react";
 // import  ReactDOM  from "react-dom/client";
 // import reportWebVitals from "./reportWebVitals";
@@ -698,7 +699,7 @@
 // //Employee Name: 1.Required 2. MaxLength 20 Characters
 // //Employee Location 1. Required
 // //Employee Email ID  1. Required 2. Email Pattern 
-// //#region FormValidation using formik
+//#region FormValidation using formik
 // import React from "react";
 // import  ReactDOM  from "react-dom/client";
 // import {useFormik } from 'formik';
@@ -807,12 +808,12 @@
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(element);
 // reportWebVitals();
-// //#endregion
+//#endregion
 
 
-// //Exe-14 form validation using Yup library
-// //use formik.getFieldProps to shorten the code, no need to use onChange, value, onBlur
-// //#region FormValidation using formik
+//Exe-14 form validation using Yup library
+//use formik.getFieldProps to shorten the code, no need to use onChange, value, onBlur
+//#region FormValidation using formik
 // import React from "react";
 // import  ReactDOM  from "react-dom/client";
 // import {useFormik } from 'formik';
@@ -875,94 +876,213 @@
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 // root.render(element);
 // reportWebVitals();
-// //#endregion
+//#endregion
 
 //Exe-15 form validation using Formik built in Components
 //#region FormValidation using formik
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import { useFormik, Formik, Form, Field, ErrorMessage } from 'formik';
+// import * as yup from 'yup';
+// import reportWebVitals from "./reportWebVitals";
+
+
+//  const SignupForm = () => { 
+//   return (
+//     <Formik initialValues={{
+//       Id: '',
+
+//       Name: '',
+
+//       Location: '',
+
+//       Salary:'',
+
+//       EmailId:'',
+
+//       Designation:''
+//     }}
+//     validationSchema={yup.object({
+
+//       Name:yup.string().max(20,'Name should not exceed 20 Characters')
+
+//       .required('Please Enter Employee Name'),
+
+//       Location: yup.string()
+
+//         .required('Please Enter Employee Location'),
+
+//       EmailId: yup.string()
+
+//         .email('Invalid email address')
+
+//         .required('Please Enter Email Id'),
+      
+//       Designation: yup.number().required('Please select a employee designation.')
+
+//     })} onSubmit= {values => {
+//       alert(JSON.stringify(values));
+//     }}    
+//     >
+//       {(props) => (
+//       <div>
+//         <h2>Enter Employee Details ...</h2>
+//         <Form>
+//           <p>
+//             <label htmlFor="Id">Employee Id</label>
+//             <Field name="Id" type="text"></Field>
+//           </p>
+          
+//           <p>
+//             <label htmlFor="Name">Employee Name</label>
+//             <Field name="Name" type="text"></Field>
+//             <ErrorMessage name="Name"></ErrorMessage>
+//           </p>
+          
+//           <p>
+//           <label htmlFor="EmailId">Employee Email ID </label>
+//           <Field name="EmailId" type="text"></Field>
+//           <ErrorMessage name="EmailId"></ErrorMessage>
+//           </p>
+          
+//           <p>
+//                 <label>Employee Designation : </label>
+//                 <Field name = "Designation" as = "select">
+//                   <option value="">--Select Designation--</option>
+//                   <option value = "1">Software Engineer</option>
+//                   <option value = "2">Senior Software Engineer</option>
+//                   <option value = "3">Lead</option>
+//                 </Field>
+//                 <ErrorMessage name = "Designation"></ErrorMessage>
+//           </p>
+//           <button type="submit" disabled={!props.isValid}>Submit</button>
+//         </Form>
+//       </div>)}
+//     </Formik>
+//   ); 
+// }
+// const element=<SignupForm/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region Exe-16 Lifting Up State
 import React from "react";
 import  ReactDOM  from "react-dom/client";
-import { useFormik, Formik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
 import reportWebVitals from "./reportWebVitals";
 
+class Order extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={Qty:'',Address:'',ProductName:'--Select--'}
+  }
+  
+  orderInfoChange=(val)=>{
+    this.setState({Qty:val});
+  }
 
- const SignupForm = () => { 
-  return (
-    <Formik initialValues={{
-      Id: '',
+  addressChange=(val)=>{
+    this.setState({Address:val});
+  }
+  productNameChange=(val)=>{
+    this.setState({ProductName:val});
+  }
 
-      Name: '',
+  orderDetails=()=>{
+    let text = `Qty: ${this.state.Qty}, Address:${this.state.Address}, ProductName:${this.state.ProductName}`;
+    alert(text);
+  }
 
-      Location: '',
-
-      Salary:'',
-
-      EmailId:'',
-
-      Designation:''
-    }}
-    validationSchema={yup.object({
-
-      Name:yup.string().max(20,'Name should not exceed 20 Characters')
-
-      .required('Please Enter Employee Name'),
-
-      Location: yup.string()
-
-        .required('Please Enter Employee Location'),
-
-      EmailId: yup.string()
-
-        .email('Invalid email address')
-
-        .required('Please Enter Email Id'),
-      
-      Designation: yup.number().required('Please select a employee designation.')
-
-    })} onSubmit= {values => {
-      alert(JSON.stringify(values));
-    }}    
-    >
-      {(props) => (
-      <div>
-        <h2>Enter Employee Details ...</h2>
-        <Form>
-          <p>
-            <label htmlFor="Id">Employee Id</label>
-            <Field name="Id" type="text"></Field>
-          </p>
-          
-          <p>
-            <label htmlFor="Name">Employee Name</label>
-            <Field name="Name" type="text"></Field>
-            <ErrorMessage name="Name"></ErrorMessage>
-          </p>
-          
-          <p>
-          <label htmlFor="EmailId">Employee Email ID </label>
-          <Field name="EmailId" type="text"></Field>
-          <ErrorMessage name="EmailId"></ErrorMessage>
-          </p>
-          
-          <p>
-                <label>Employee Designation : </label>
-                <Field name = "Designation" as = "select">
-                  <option value="">--Select Designation--</option>
-                  <option value = "1">Software Engineer</option>
-                  <option value = "2">Senior Software Engineer</option>
-                  <option value = "3">Lead</option>
-                </Field>
-                <ErrorMessage name = "Designation"></ErrorMessage>
-          </p>
-          <button type="submit" disabled={!props.isValid}>Submit</button>
-        </Form>
-      </div>)}
-    </Formik>
-  ); 
+  render(){
+    return(<div>
+      <h2>Product Order</h2>
+      <ProductInfo Qty={this.state.Qty} onQuantityChange={this.orderInfoChange} onProductNameChange={this.productNameChange}/>
+      <AddressInfo Address={this.state.Address} onAddressChange={this.addressChange}/>
+      <SummaryInfo Qty={this.state.Qty}
+       Address={this.state.Address}
+       ProductName={this.state.ProductName}
+       onQtyChange={this.orderInfoChange}
+       showOrderDetails={this.orderDetails}/>
+    </div>);
+  }
 }
-const element=<SignupForm/>
+
+class ProductInfo extends React.Component{
+  handleChange=(e)=>{
+    this.props.onQuantityChange(e.target.value)
+  }
+
+  ProductNameChange=(e)=>{
+    this.props.onProductNameChange(e.target.value);
+  }
+
+
+  render(){
+    return(<div style={{border:'px solid red'}}>
+      <h2>Product Information ...</h2>
+      <p>
+        <label>Product Name:
+          <select onChange={this.ProductNameChange}>
+            <option value="--Select--">--Select--</option>
+            <option value="Product-1">Product-1</option>
+            <option value="Product-2">Product-2</option>
+            <option value="Product-3">Product-3</option>
+          </select>
+        </label>       
+      </p>
+      <p>
+        <label>Enter Qty:
+          <input type="text" value={this.props.Qty} name="quantity" onChange={this.handleChange}></input>
+        </label>
+      </p>
+    </div>)
+  }
+}
+
+class AddressInfo extends React.Component{
+  
+  handleChange=(e)=>{
+    this.props.onAddressChange(e.target.value)
+
+  }
+  render(){
+    return(<div style={{border:'1px solid red'}}>
+      <h2>Address Information</h2>
+      <label>Address: <input type="text" name="address" onChange={this.handleChange}></input></label>
+    </div>);
+  }
+}
+
+class SummaryInfo extends React.Component{
+  SummaryQtyChange=(e)=>{
+    this.props.onQtyChange(e.target.value)
+  }
+  showOrder=()=>{
+    this.props.showOrderDetails();
+  }
+
+  render(){
+    return(<div style={{border:'1px solid red'}}>
+      <h2>Summary Info</h2>
+      <p>
+        <label>Product Name:{this.props.ProductName}</label>        
+      </p>
+      <p>
+        <label>Enter Qty:<input type="text" name="summaryQty" value={this.props.Qty} onChange={this.SummaryQtyChange}></input></label>
+      </p>
+      <p>
+        <label>Address:<input type="text" name="summaryAddress" value={this.props.Address}></input></label>
+      </p>
+      <p>
+        <button onClick={this.showOrder}>Place Order</button>
+      </p>
+    </div>);
+  }
+}
+
+const element=<Order/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 //#endregion
-
