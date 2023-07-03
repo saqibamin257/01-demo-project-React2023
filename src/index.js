@@ -1161,38 +1161,105 @@
 
 
 //#region 17(c) Create video player, with play and pause buttons.
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import video from '../src/video/Algorithms.mp4';
+// import reportWebVitals from "./reportWebVitals";
+
+// class VideoPlayer extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.videoRef=React.createRef();    
+//   }  
+//   playVideo=()=>{
+//     this.videoRef.current.play();
+//   }
+
+//   pauseVideo=()=>{
+//     this.videoRef.current.pause();
+//   }
+
+//   render(){
+//     return(
+//     <div>
+//       <video ref={this.videoRef} width="300" height="200" controls>
+//       <source src={video} type="video/mp4"></source>
+//       </video>
+//       <div>
+//       <button onClick={this.playVideo}>play</button>
+//       <button onClick={this.pauseVideo}>pause</button>
+//       </div>      
+//     </div>);
+//   }
+// }
+// const element=<VideoPlayer/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region Exe-18 Ref-Part-2 Ref Forwarding.
+//Pass Parent component ref to child component by using innerRef.
+//click on Summary Component's Elevator Name paragraph, and shift focus on Elevator component's Name Input field.
 import React from "react";
 import  ReactDOM  from "react-dom/client";
-import video from '../src/video/Algorithms.mp4';
 import reportWebVitals from "./reportWebVitals";
 
-class VideoPlayer extends React.Component{
+class Elevator extends React.Component{
   constructor(props){
     super(props);
-    this.videoRef=React.createRef();    
+    this.elevatorRef=React.createRef();
   }  
-  playVideo=()=>{
-    this.videoRef.current.play();
-  }
-
-  pauseVideo=()=>{
-    this.videoRef.current.pause();
-  }
-
+  
   render(){
     return(
     <div>
-      <video ref={this.videoRef} width="300" height="200" controls>
-      <source src={video} type="video/mp4"></source>
-      </video>
-      <div>
-      <button onClick={this.playVideo}>play</button>
-      <button onClick={this.pauseVideo}>pause</button>
-      </div>      
+        <h2>Welcome to Elevator Ordering Screen...</h2>
+        <p>
+          <label>Elevator Name : <input ref={this.elevatorRef} type="text"></input></label>
+        </p>
+
+        <p>
+          <label>Elevator Speed : <input type="text"></input></label>
+        </p>
+
+        <p>
+          <label>Elevator Load : <input type="text"></input></label>
+        </p>
+        <SummaryRef innerRef={this.elevatorRef}></SummaryRef>
     </div>);
   }
 }
-const element=<VideoPlayer/>
+
+class SummaryRef extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  focusInput=()=>{
+    this.props.innerRef.current.focus();
+  }
+  render() {
+    return (<div>
+      <h2>Summary Details...</h2>
+      <p onClick={this.focusInput}>
+        <label>Elevator Name : <b>Name - 1</b></label>
+      </p>
+
+      <p>
+        <label>Elevator Speed : <b>10 m/s</b></label>
+      </p>
+
+      <p>
+        <label>Elevator Load : <b>550 Kg</b></label>
+      </p>
+    </div>
+    );
+  }
+}
+
+
+
+const element=<Elevator />
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
