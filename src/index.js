@@ -1125,37 +1125,74 @@
 //#endregion
 
 //#region 17(b) Create Login Form, with bydefault focus on UserName input.
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class Login extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.userNameRef=React.createRef();    
+//   }
+
+//   componentDidMount(){
+//     this.userNameRef.current.focus();
+//   }
+
+//   render(){
+//     return(
+//     <div>
+//       <p>
+//         <label>UserName:<input type="text" ref={this.userNameRef}></input></label>        
+//       </p>
+//       <p>
+//         <label>Password:<input type="text"></input></label>        
+//       </p>
+//       <button>Login</button>
+
+//     </div>);
+//   }
+// }
+// const element=<Login/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+
+//#region 17(c) Create video player, with play and pause buttons.
 import React from "react";
 import  ReactDOM  from "react-dom/client";
+import video from '../src/video/Algorithms.mp4';
 import reportWebVitals from "./reportWebVitals";
 
-class Login extends React.Component{
+class VideoPlayer extends React.Component{
   constructor(props){
     super(props);
-    this.userNameRef=React.createRef();    
+    this.videoRef=React.createRef();    
+  }  
+  playVideo=()=>{
+    this.videoRef.current.play();
   }
 
-  componentDidMount(){
-    this.userNameRef.current.focus();
+  pauseVideo=()=>{
+    this.videoRef.current.pause();
   }
-
- 
 
   render(){
     return(
     <div>
-      <p>
-        <label>UserName:<input type="text" ref={this.userNameRef}></input></label>        
-      </p>
-      <p>
-        <label>Password:<input type="text"></input></label>        
-      </p>
-      <button>Login</button>
-
+      <video ref={this.videoRef} width="300" height="200" controls>
+      <source src={video} type="video/mp4"></source>
+      </video>
+      <div>
+      <button onClick={this.playVideo}>play</button>
+      <button onClick={this.pauseVideo}>pause</button>
+      </div>      
     </div>);
   }
 }
-const element=<Login/>
+const element=<VideoPlayer/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
