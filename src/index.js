@@ -1092,39 +1092,71 @@
 // In this way we can avoid rerendring again and again which happens if we keep the change the value using state.
 // because on every state change component re renders.
 //#region 
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class QuantityIncrement extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.quantityRef=React.createRef();
+//   }
+
+//   incrementQuantity=()=>{
+//     this.quantityRef.current.value++;
+//   }
+
+//   render(){
+//     alert('Welcome React');
+//     return(
+//     <div>
+//       <p>
+//         <label>Enter Quantity:<input type="text" ref={this.quantityRef}></input></label>
+//         <button onClick={this.incrementQuantity}>+</button>
+//       </p>
+
+//     </div>);
+//   }
+// }
+// const element=<QuantityIncrement/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region 17(b) Create Login Form, with bydefault focus on UserName input.
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
-class QuantityIncrement extends React.Component{
+class Login extends React.Component{
   constructor(props){
     super(props);
-    this.quantityRef=React.createRef();
+    this.userNameRef=React.createRef();    
   }
 
-  incrementQuantity=()=>{
-    this.quantityRef.current.value++;
+  componentDidMount(){
+    this.userNameRef.current.focus();
   }
+
+ 
 
   render(){
-    alert('Welcome React');
     return(
     <div>
       <p>
-        <label>Enter Quantity:<input type="text" ref={this.quantityRef}></input></label>
-        <button onClick={this.incrementQuantity}>+</button>
+        <label>UserName:<input type="text" ref={this.userNameRef}></input></label>        
       </p>
+      <p>
+        <label>Password:<input type="text"></input></label>        
+      </p>
+      <button>Login</button>
 
     </div>);
   }
 }
-
-
-
-
-const element=<QuantityIncrement/>
+const element=<Login/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
-
 //#endregion
