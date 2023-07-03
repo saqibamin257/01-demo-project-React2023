@@ -560,7 +560,7 @@
 //#endregion
 
 //Exe-11
-// #region-Exe-11- SpreadOperator-Keep State Of All Controls 
+// #region Exe-11- SpreadOperator-Keep State Of All Controls 
 // import React from "react";
 // import  ReactDOM  from "react-dom/client";
 // import reportWebVitals from "./reportWebVitals";
@@ -622,7 +622,7 @@
 //#endregion
 
 
-//#region-Exe-12- Formic Controls 
+//#region Exe-12- Formic Controls 
 
 // import React from "react";
 // import  ReactDOM  from "react-dom/client";
@@ -968,121 +968,163 @@
 //#endregion
 
 //#region Exe-16 Lifting Up State
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class Order extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={Qty:'',Address:'',ProductName:'--Select--'}
+//   }
+  
+//   orderInfoChange=(val)=>{
+//     this.setState({Qty:val});
+//   }
+
+//   addressChange=(val)=>{
+//     this.setState({Address:val});
+//   }
+//   productNameChange=(val)=>{
+//     this.setState({ProductName:val});
+//   }
+
+//   orderDetails=()=>{
+//     let text = `Qty: ${this.state.Qty}, Address:${this.state.Address}, ProductName:${this.state.ProductName}`;
+//     alert(text);
+//   }
+
+//   render(){
+//     return(<div>
+//       <h2>Product Order</h2>
+//       <ProductInfo Qty={this.state.Qty} onQuantityChange={this.orderInfoChange} onProductNameChange={this.productNameChange}/>
+//       <AddressInfo Address={this.state.Address} onAddressChange={this.addressChange}/>
+//       <SummaryInfo Qty={this.state.Qty}
+//        Address={this.state.Address}
+//        ProductName={this.state.ProductName}
+//        onQtyChange={this.orderInfoChange}
+//        showOrderDetails={this.orderDetails}/>
+//     </div>);
+//   }
+// }
+
+// class ProductInfo extends React.Component{
+//   handleChange=(e)=>{
+//     this.props.onQuantityChange(e.target.value)
+//   }
+
+//   ProductNameChange=(e)=>{
+//     this.props.onProductNameChange(e.target.value);
+//   }
+
+
+//   render(){
+//     return(<div style={{border:'px solid red'}}>
+//       <h2>Product Information ...</h2>
+//       <p>
+//         <label>Product Name:
+//           <select onChange={this.ProductNameChange}>
+//             <option value="--Select--">--Select--</option>
+//             <option value="Product-1">Product-1</option>
+//             <option value="Product-2">Product-2</option>
+//             <option value="Product-3">Product-3</option>
+//           </select>
+//         </label>       
+//       </p>
+//       <p>
+//         <label>Enter Qty:
+//           <input type="text" value={this.props.Qty} name="quantity" onChange={this.handleChange}></input>
+//         </label>
+//       </p>
+//     </div>)
+//   }
+// }
+
+// class AddressInfo extends React.Component{
+  
+//   handleChange=(e)=>{
+//     this.props.onAddressChange(e.target.value)
+
+//   }
+//   render(){
+//     return(<div style={{border:'1px solid red'}}>
+//       <h2>Address Information</h2>
+//       <label>Address: <input type="text" name="address" onChange={this.handleChange}></input></label>
+//     </div>);
+//   }
+// }
+
+// class SummaryInfo extends React.Component{
+//   SummaryQtyChange=(e)=>{
+//     this.props.onQtyChange(e.target.value)
+//   }
+//   showOrder=()=>{
+//     this.props.showOrderDetails();
+//   }
+
+//   render(){
+//     return(<div style={{border:'1px solid red'}}>
+//       <h2>Summary Info</h2>
+//       <p>
+//         <label>Product Name:{this.props.ProductName}</label>        
+//       </p>
+//       <p>
+//         <label>Enter Qty:<input type="text" name="summaryQty" value={this.props.Qty} onChange={this.SummaryQtyChange}></input></label>
+//       </p>
+//       <p>
+//         <label>Address:<input type="text" name="summaryAddress" value={this.props.Address}></input></label>
+//       </p>
+//       <p>
+//         <button onClick={this.showOrder}>Place Order</button>
+//       </p>
+//     </div>);
+//   }
+// }
+
+// const element=<Order/>
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+
+//Exe-17(a) Ref - UseCase-1: create textbox,button and alert message, by using ref increment the input value.
+// In this way we can avoid rerendring again and again which happens if we keep the change the value using state.
+// because on every state change component re renders.
+//#region 
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
-class Order extends React.Component{
+class QuantityIncrement extends React.Component{
   constructor(props){
     super(props);
-    this.state={Qty:'',Address:'',ProductName:'--Select--'}
-  }
-  
-  orderInfoChange=(val)=>{
-    this.setState({Qty:val});
+    this.quantityRef=React.createRef();
   }
 
-  addressChange=(val)=>{
-    this.setState({Address:val});
-  }
-  productNameChange=(val)=>{
-    this.setState({ProductName:val});
-  }
-
-  orderDetails=()=>{
-    let text = `Qty: ${this.state.Qty}, Address:${this.state.Address}, ProductName:${this.state.ProductName}`;
-    alert(text);
+  incrementQuantity=()=>{
+    this.quantityRef.current.value++;
   }
 
   render(){
-    return(<div>
-      <h2>Product Order</h2>
-      <ProductInfo Qty={this.state.Qty} onQuantityChange={this.orderInfoChange} onProductNameChange={this.productNameChange}/>
-      <AddressInfo Address={this.state.Address} onAddressChange={this.addressChange}/>
-      <SummaryInfo Qty={this.state.Qty}
-       Address={this.state.Address}
-       ProductName={this.state.ProductName}
-       onQtyChange={this.orderInfoChange}
-       showOrderDetails={this.orderDetails}/>
+    alert('Welcome React');
+    return(
+    <div>
+      <p>
+        <label>Enter Quantity:<input type="text" ref={this.quantityRef}></input></label>
+        <button onClick={this.incrementQuantity}>+</button>
+      </p>
+
     </div>);
   }
 }
 
-class ProductInfo extends React.Component{
-  handleChange=(e)=>{
-    this.props.onQuantityChange(e.target.value)
-  }
-
-  ProductNameChange=(e)=>{
-    this.props.onProductNameChange(e.target.value);
-  }
 
 
-  render(){
-    return(<div style={{border:'px solid red'}}>
-      <h2>Product Information ...</h2>
-      <p>
-        <label>Product Name:
-          <select onChange={this.ProductNameChange}>
-            <option value="--Select--">--Select--</option>
-            <option value="Product-1">Product-1</option>
-            <option value="Product-2">Product-2</option>
-            <option value="Product-3">Product-3</option>
-          </select>
-        </label>       
-      </p>
-      <p>
-        <label>Enter Qty:
-          <input type="text" value={this.props.Qty} name="quantity" onChange={this.handleChange}></input>
-        </label>
-      </p>
-    </div>)
-  }
-}
 
-class AddressInfo extends React.Component{
-  
-  handleChange=(e)=>{
-    this.props.onAddressChange(e.target.value)
-
-  }
-  render(){
-    return(<div style={{border:'1px solid red'}}>
-      <h2>Address Information</h2>
-      <label>Address: <input type="text" name="address" onChange={this.handleChange}></input></label>
-    </div>);
-  }
-}
-
-class SummaryInfo extends React.Component{
-  SummaryQtyChange=(e)=>{
-    this.props.onQtyChange(e.target.value)
-  }
-  showOrder=()=>{
-    this.props.showOrderDetails();
-  }
-
-  render(){
-    return(<div style={{border:'1px solid red'}}>
-      <h2>Summary Info</h2>
-      <p>
-        <label>Product Name:{this.props.ProductName}</label>        
-      </p>
-      <p>
-        <label>Enter Qty:<input type="text" name="summaryQty" value={this.props.Qty} onChange={this.SummaryQtyChange}></input></label>
-      </p>
-      <p>
-        <label>Address:<input type="text" name="summaryAddress" value={this.props.Address}></input></label>
-      </p>
-      <p>
-        <button onClick={this.showOrder}>Place Order</button>
-      </p>
-    </div>);
-  }
-}
-
-const element=<Order/>
+const element=<QuantityIncrement/>
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
+
 //#endregion
