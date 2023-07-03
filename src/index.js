@@ -1201,66 +1201,91 @@
 //#region Exe-18 Ref-Part-2 Ref Forwarding.
 //Pass Parent component ref to child component by using innerRef.
 //click on Summary Component's Elevator Name paragraph, and shift focus on Elevator component's Name Input field.
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// class Elevator extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.elevatorRef=React.createRef();
+//   }  
+  
+//   render(){
+//     return(
+//     <div>
+//         <h2>Welcome to Elevator Ordering Screen...</h2>
+//         <p>
+//           <label>Elevator Name : <input ref={this.elevatorRef} type="text"></input></label>
+//         </p>
+
+//         <p>
+//           <label>Elevator Speed : <input type="text"></input></label>
+//         </p>
+
+//         <p>
+//           <label>Elevator Load : <input type="text"></input></label>
+//         </p>
+//         <SummaryRef innerRef={this.elevatorRef}></SummaryRef>
+//     </div>);
+//   }
+// }
+
+// class SummaryRef extends React.Component {
+//   constructor(props) {
+//     super(props);
+//   }
+//   focusInput=()=>{
+//     this.props.innerRef.current.focus();
+//   }
+//   render() {
+//     return (<div>
+//       <h2>Summary Details...</h2>
+//       <p onClick={this.focusInput}>
+//         <label>Elevator Name : <b>Name - 1</b></label>
+//       </p>
+
+//       <p>
+//         <label>Elevator Speed : <b>10 m/s</b></label>
+//       </p>
+
+//       <p>
+//         <label>Elevator Load : <b>550 Kg</b></label>
+//       </p>
+//     </div>
+//     );
+//   }
+// }
+
+
+
+// const element=<Elevator />
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region Exe-19 Ref in functional components.
 import React from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-
-class Elevator extends React.Component{
-  constructor(props){
-    super(props);
-    this.elevatorRef=React.createRef();
-  }  
+function TestComponent(){
   
-  render(){
-    return(
+  let testRef=null;
+  function handleClick(){
+    testRef.focus();
+  }
+
+  return(
     <div>
-        <h2>Welcome to Elevator Ordering Screen...</h2>
-        <p>
-          <label>Elevator Name : <input ref={this.elevatorRef} type="text"></input></label>
-        </p>
-
-        <p>
-          <label>Elevator Speed : <input type="text"></input></label>
-        </p>
-
-        <p>
-          <label>Elevator Load : <input type="text"></input></label>
-        </p>
-        <SummaryRef innerRef={this.elevatorRef}></SummaryRef>
-    </div>);
-  }
-}
-
-class SummaryRef extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  focusInput=()=>{
-    this.props.innerRef.current.focus();
-  }
-  render() {
-    return (<div>
-      <h2>Summary Details...</h2>
-      <p onClick={this.focusInput}>
-        <label>Elevator Name : <b>Name - 1</b></label>
-      </p>
-
-      <p>
-        <label>Elevator Speed : <b>10 m/s</b></label>
-      </p>
-
-      <p>
-        <label>Elevator Load : <b>550 Kg</b></label>
-      </p>
+      <input type="text" ref={e=>testRef=e}></input>
+      <input type="button" value="Focus the textbox" onClick={handleClick}/>
     </div>
-    );
-  }
+  );
 }
-
-
-
-const element=<Elevator />
+const element=TestComponent();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 //#endregion
+
