@@ -1291,79 +1291,307 @@
 
 //#region Exe-20 FrowardRef in functional components.
 //we can not attach ref to input fields i functional components, for that we have 2options.
-//(a) convert function component to class component or use ForwardRef technique.
+//(a) convert function component to class component or (b) use ForwardRef technique.
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// const DemoComponent = React.forwardRef((props,ref) => {
+  
+//   function testClick(){
+//     ref.current.focus();
+//   }
+//   return(
+//     <button onClick={testClick}>Click-DemoComponent</button>
+//   );
+// })
+// class Elevator extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.elevatorRef=React.createRef();
+//   }  
+  
+//   render(){
+//     return(
+//     <div>
+//         <h2>Welcome to Elevator Ordering Screen...</h2>
+//         <p>
+//           <label>Elevator Name : <input ref={this.elevatorRef} type="text"></input></label>
+//         </p>
+
+//         <p>
+//           <label>Elevator Speed : <input type="text"></input></label>
+//         </p>
+
+//         <p>
+//           <label>Elevator Load : <input type="text"></input></label>
+//         </p>
+//         <SummaryRef innerRef={this.elevatorRef}></SummaryRef>
+//         <DemoComponent ref={this.elevatorRef}></DemoComponent>
+//     </div>);
+//   }
+// }
+
+// class SummaryRef extends React.Component {
+//   constructor(props) {
+//     super(props);
+//   }
+//   focusInput=()=>{
+//     this.props.innerRef.current.focus();
+//   }
+//   render() {
+//     return (<div>
+//       <h2>Summary Details...</h2>
+//       <p onClick={this.focusInput}>
+//         <label>Elevator Name : <b>Name - 1</b></label>
+//       </p>
+
+//       <p>
+//         <label>Elevator Speed : <b>10 m/s</b></label>
+//       </p>
+
+//       <p>
+//         <label>Elevator Load : <b>550 Kg</b></label>
+//       </p>
+//     </div>
+//     );
+//   }
+// }
+
+// const element=<Elevator></Elevator>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+
+//#region Exe-21 Higher Order Function.
+// create admin dashboard, with Employee Report, Department Report and PRoject Report Components.
+// create dynamic and reusable component to fetch and render data from API for employee and dept.
+
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
+
+// function reportsHOC(InputComponent,inputData){
+//   return class extends React.Component{
+//     constructor(props){
+//       super(props);
+//       this.state={
+//         data:[],
+//         columns:inputData.columns, //for columns name
+//         header:inputData.header //for heading
+//       };
+//     }
+//     componentDidMount(){
+//       fetch(inputData.Url)
+//       .then(res=>res.json())
+//       .then(
+//         (result) =>{
+//           this.setState({data:result});          
+//         });
+//     }
+//     render(){
+//       return(
+//         <Data data={this.state}></Data>
+//       );
+//     }
+//   }
+// }
+
+// class Data extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+//   render(){
+//     return(<div>
+//       <h2>{this.props.data.header}</h2>
+//       <table>
+//         <thead>
+//           <tr>
+//             {this.props.data.columns.map(c=>(
+//               <th>{c}</th>
+//             ))}
+//           </tr>
+//         </thead>
+//         <tbody>          
+//           {this.props.data.data.map(r =>(                                    
+//             <tr key={r.Id}>
+//               {this.props.data.columns.map(c=>(
+//                 <td>{r[c]}</td>
+//               ))}
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>)
+//   }
+// }
+
+// class Reports extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+//   render(){
+//     return(
+//     <div>
+//     </div>
+//     );
+//   }
+// }
+
+// const EmployeeReports = reportsHOC(Reports,
+//   {Url:'http://localhost:7037/api/Employee',
+//    columns:['employeeId','name','location','salary'],
+//    header:'Employee Data'});
+
+//    const DeptReports = reportsHOC(Reports,
+//     {Url:'http://localhost:7037/api/department',
+//      columns:['departmentId','departmentName','revenue'],
+//      header:'Department Data'});
+
+
+
+// class AdminDashboard extends React.Component{
+//   constructor(props){
+//     super(props);    
+//   }
+//   render(){
+//     return(
+//       <>
+//       <EmployeeReports></EmployeeReports>
+//       <DeptReports></DeptReports>
+//       </>
+//     );
+//   }
+// }
+
+// const element=<AdminDashboard></AdminDashboard>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region  Exe-22 - Portals in React
+// Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+
 import React from "react";
 import  ReactDOM  from "react-dom/client";
+import { createPortal } from 'react-dom';
 import reportWebVitals from "./reportWebVitals";
 
-const DemoComponent = React.forwardRef((props,ref) => {
-  
-  function testClick(){
-    ref.current.focus();
-  }
-  return(
-    <button onClick={testClick}>Click-DemoComponent</button>
-  );
-})
-class Elevator extends React.Component{
+class Employee extends React.Component{
   constructor(props){
     super(props);
-    this.elevatorRef=React.createRef();
-  }  
-  
+    this.state={
+      employees:[],
+      showModal:false    
+    }    
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:7037/api/Employee")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            employees: result
+          });
+        }
+      );
+  }
+  editEmployee=()=>{
+     this.setState({showModal:!this.state.showModal});
+  }
+
   render(){
     return(
-    <div>
-        <h2>Welcome to Elevator Ordering Screen...</h2>
-        <p>
-          <label>Elevator Name : <input ref={this.elevatorRef} type="text"></input></label>
-        </p>
-
-        <p>
-          <label>Elevator Speed : <input type="text"></input></label>
-        </p>
-
-        <p>
-          <label>Elevator Load : <input type="text"></input></label>
-        </p>
-        <SummaryRef innerRef={this.elevatorRef}></SummaryRef>
-        <DemoComponent ref={this.elevatorRef}></DemoComponent>
-    </div>);
-  }
-}
-
-class SummaryRef extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  focusInput=()=>{
-    this.props.innerRef.current.focus();
-  }
-  render() {
-    return (<div>
-      <h2>Summary Details...</h2>
-      <p onClick={this.focusInput}>
-        <label>Elevator Name : <b>Name - 1</b></label>
-      </p>
-
-      <p>
-        <label>Elevator Speed : <b>10 m/s</b></label>
-      </p>
-
-      <p>
-        <label>Elevator Load : <b>550 Kg</b></label>
-      </p>
-    </div>
+      <div>
+        <h2>Employee Data ...</h2>
+        <table>
+          <thead>
+          <tr>
+            <th>Employee Id</th>
+            <th>Name</th>           
+            <th>Location</th>
+            <th>Salary</th>
+            <th>Actions</th>                                            
+          </tr>
+          </thead>
+          <tbody>
+          {this.state.employees.map( (emp)=>(
+            <tr key={emp.employeeId}>
+              <td>{emp.employeeId}</td>
+              <td>{emp.name}</td>
+              <td>{emp.location}</td>
+              <td>{emp.salary}</td>
+              <td>
+              <button onClick={this.editEmployee}>Edit</button> 
+              <Modal open={this.state.showModal} close={this.editEmployee}>
+              <EmployeeModal employee={emp}></EmployeeModal>
+              </Modal>              
+              </td>
+            </tr>
+          ))}
+          </tbody>          
+        </table>
+      </div>
     );
   }
 }
 
-const element=<Elevator></Elevator>;
+class Modal extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+      this.props.open?createPortal(
+        <div className="modal">
+          <button onClick={this.props.close}>X</button>
+          {this.props.children}
+        </div>,document.body):null
+      );
+  }
+}
+
+class EmployeeModal extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+       <div>
+
+        <h2>Employee Details...</h2>
+        <p>
+          <label>Employee ID : <input type="text" value={this.props.employee.employeeId}></input></label>
+        </p>
+
+        <p>
+          <label>Employee Name : <input type="text" value={this.props.employee.name}></input></label>
+        </p>
+
+        <p>
+          <label>Employee Location : <input type="text" value={this.props.employee.location}></input></label>
+        </p>
+
+        <p>
+          <label>Employee Salary : <input type="text" value={this.props.employee.salary}></input></label>
+        </p>
+
+        <input type="submit" value="Save"></input>
+      </div>
+    );
+   }
+}
+const element=<Employee></Employee>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 //#endregion
-
 
 
 
