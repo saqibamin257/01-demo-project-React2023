@@ -1475,123 +1475,212 @@
 //#region  Exe-22 - Portals in React
 // Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
 
-import React from "react";
+// import React from "react";
+// import  ReactDOM  from "react-dom/client";
+// import { createPortal } from 'react-dom';
+// import reportWebVitals from "./reportWebVitals";
+
+// class Employee extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       employees:[],
+//       showModal:false    
+//     }    
+//   }
+
+//   componentDidMount() {
+//     fetch("http://localhost:7037/api/Employee")
+//       .then(res => res.json())
+//       .then(
+//         (result) => {
+//           this.setState({
+//             employees: result
+//           });
+//         }
+//       );
+//   }
+//   editEmployee=()=>{
+//      this.setState({showModal:!this.state.showModal});
+//   }
+
+//   render(){
+//     return(
+//       <div>
+//         <h2>Employee Data ...</h2>
+//         <table>
+//           <thead>
+//           <tr>
+//             <th>Employee Id</th>
+//             <th>Name</th>           
+//             <th>Location</th>
+//             <th>Salary</th>
+//             <th>Actions</th>                                            
+//           </tr>
+//           </thead>
+//           <tbody>
+//           {this.state.employees.map( (emp)=>(
+//             <tr key={emp.employeeId}>
+//               <td>{emp.employeeId}</td>
+//               <td>{emp.name}</td>
+//               <td>{emp.location}</td>
+//               <td>{emp.salary}</td>
+//               <td>
+//               <button onClick={this.editEmployee}>Edit</button> 
+//               <Modal open={this.state.showModal} close={this.editEmployee}>
+//               <EmployeeModal employee={emp}></EmployeeModal>
+//               </Modal>              
+//               </td>
+//             </tr>
+//           ))}
+//           </tbody>          
+//         </table>
+//       </div>
+//     );
+//   }
+// }
+
+// class Modal extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+
+//   render(){
+//     return(
+//       this.props.open?createPortal(
+//         <div className="modal">
+//           <button onClick={this.props.close}>X</button>
+//           {this.props.children}
+//         </div>,document.body):null
+//       );
+//   }
+// }
+
+// class EmployeeModal extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+
+//   render(){
+//     console.log(this.props);
+//     return(
+//        <div>
+
+//         <h2>Employee Details...</h2>
+//         <p>
+//           <label>Employee ID : <input type="text" value={this.props.employee.employeeId}></input></label>
+//         </p>
+
+//         <p>
+//           <label>Employee Name : <input type="text" value={this.props.employee.name}></input></label>
+//         </p>
+
+//         <p>
+//           <label>Employee Location : <input type="text" value={this.props.employee.location}></input></label>
+//         </p>
+
+//         <p>
+//           <label>Employee Salary : <input type="text" value={this.props.employee.salary}></input></label>
+//         </p>
+
+//         <input type="submit" value="Save"></input>
+//       </div>
+//     );
+//    }
+// }
+// const element=<Employee></Employee>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+
+//#region  Exe-23 - Profiler in React
+// Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+
+import React, { Profiler } from "react";
 import  ReactDOM  from "react-dom/client";
-import { createPortal } from 'react-dom';
 import reportWebVitals from "./reportWebVitals";
 
-class Employee extends React.Component{
+class NewAccountsReports extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      employees:[],
-      showModal:false    
-    }    
+      FromDate:'',
+      ToDate:''
+    };
+  }
+  handleChange=(e)=>{
+    let name=e.target.name;
+    let value=e.target.value;
+    
+    this.setState({
+      [name]:value
+    });
   }
 
-  componentDidMount() {
-    fetch("http://localhost:7037/api/Employee")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            employees: result
-          });
-        }
-      );
+
+  render(){
+    return(
+    <div>
+      <h2>Welcome to New Account Report Component...</h2>
+      <p>
+        <label>From Date: <input type="text" name="FromDate" onChange={this.handleChange} value={this.state.FromDate}></input></label>
+      </p>
+
+      <p>
+        <label>To Date: <input type="text" name="ToDate" onChange={this.handleChange} value={this.state.ToDate}></input></label>
+      </p>
+      <input type="submit" value="Generate"></input>
+    </div>
+    );
   }
-  editEmployee=()=>{
-     this.setState({showModal:!this.state.showModal});
+}
+
+class LoansRepaymentReports extends React.Component{
+
+  constructor(props){
+    super(props);
   }
+
+
 
   render(){
     return(
       <div>
-        <h2>Employee Data ...</h2>
-        <table>
-          <thead>
-          <tr>
-            <th>Employee Id</th>
-            <th>Name</th>           
-            <th>Location</th>
-            <th>Salary</th>
-            <th>Actions</th>                                            
-          </tr>
-          </thead>
-          <tbody>
-          {this.state.employees.map( (emp)=>(
-            <tr key={emp.employeeId}>
-              <td>{emp.employeeId}</td>
-              <td>{emp.name}</td>
-              <td>{emp.location}</td>
-              <td>{emp.salary}</td>
-              <td>
-              <button onClick={this.editEmployee}>Edit</button> 
-              <Modal open={this.state.showModal} close={this.editEmployee}>
-              <EmployeeModal employee={emp}></EmployeeModal>
-              </Modal>              
-              </td>
-            </tr>
-          ))}
-          </tbody>          
-        </table>
+        <h2>Welcome to Loans Repayment Reports Component...</h2>
       </div>
     );
   }
 }
 
-class Modal extends React.Component{
+class ReportsDashboard extends React.Component{
   constructor(props){
     super(props);
+  }
+  callbackFunction=(id,phase,actualDuration,baseDuration, startTime,
+    commitTime, interaction) => {
+      console.log('Id is : '+id+', Phase is : '+phase);
+      console.log('Actual Duration is : '+actualDuration+' and Base Duration is :'+
+      baseDuration);
   }
 
   render(){
     return(
-      this.props.open?createPortal(
-        <div className="modal">
-          <button onClick={this.props.close}>X</button>
-          {this.props.children}
-        </div>,document.body):null
-      );
-  }
-}
-
-class EmployeeModal extends React.Component{
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    return(
-       <div>
-
-        <h2>Employee Details...</h2>
-        <p>
-          <label>Employee ID : <input type="text" value={this.props.employee.employeeId}></input></label>
-        </p>
-
-        <p>
-          <label>Employee Name : <input type="text" value={this.props.employee.name}></input></label>
-        </p>
-
-        <p>
-          <label>Employee Location : <input type="text" value={this.props.employee.location}></input></label>
-        </p>
-
-        <p>
-          <label>Employee Salary : <input type="text" value={this.props.employee.salary}></input></label>
-        </p>
-
-        <input type="submit" value="Save"></input>
-      </div>
+    <>
+    <h2>Welcome to Report Dashboard ...</h2>
+    <Profiler id="newAccountProfiler" onRender={this.callbackFunction}>
+    <NewAccountsReports/>
+    </Profiler>
+    <Profiler id="loadRepaymentReports" onRender={this.callbackFunction}>
+    <LoansRepaymentReports/>
+    </Profiler>    
+    </>
     );
-   }
+  }
 }
-const element=<Employee></Employee>;
+
+const element=<ReportsDashboard></ReportsDashboard>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
-//#endregion
-
-
-
