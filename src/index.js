@@ -1688,70 +1688,109 @@
 
 //#region  Exe-24 - Render Props in React
 
-import React  from "react";
+// import React  from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals"; 
+
+// class Department extends React.Component{
+
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       list:['Dev','Big Data','Mobility']
+//     };
+//   }
+
+//   render(){
+//     return(
+//       <div>
+//         <h2>Department List...</h2>
+//         <ul>
+//           {this.state.list.map(d=>(
+//             <li key={d}>{d}</li>
+//           ))}
+//         </ul>
+//       </div>
+//     );
+//   }
+// }
+
+// class Project extends React.Component{
+//   constructor(props){
+//     super(props);    
+//   }
+
+//   render(){
+//     return(
+//       <div>
+//         <h2>Projects List...</h2>
+//         <ul>
+//           {this.props.list.map(d=>(
+//             <li key={d}>{d}</li>
+//           ))}
+//         </ul>
+//       </div>
+//     );
+//   }
+// }
+
+// class Page extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+
+//   render(){
+//     return(
+//       <React.Fragment>
+//         <Department></Department>
+//         <Project list={['P-1','P-2','P-3']}></Project>
+//       </React.Fragment>
+//     )
+//   }
+// }
+
+// const element=<Page></Page>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+
+//#endregion
+
+//------------------Functional Components------------------------//
+
+//#region  Exe-26 - use State in React
+
+
+import React,{useState}  from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals"; 
 
-class Department extends React.Component{
-
-  constructor(props){
-    super(props);
-    this.state={
-      list:['Dev','Big Data','Mobility']
-    };
+function Employee()
+{
+  const[name,setName]=useState('');
+  
+  function changeName(e){
+    setName(e.target.value);
   }
 
-  render(){
-    return(
-      <div>
-        <h2>Department List...</h2>
-        <ul>
-          {this.state.list.map(d=>(
-            <li key={d}>{d}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+  return(
+    <div>
+      <h2>Welcome to Employee Functional Component</h2>
+      <p>
+        <label>
+          Employee Name:<input type="text" value={name} onChange={changeName}/>
+        </label>
+      </p>
+      <p>
+        <label>Name:{name}</label>
+      </p>
+    </div>
+  )
 }
-
-class Project extends React.Component{
-  constructor(props){
-    super(props);    
-  }
-
-  render(){
-    return(
-      <div>
-        <h2>Projects List...</h2>
-        <ul>
-          {this.props.list.map(d=>(
-            <li key={d}>{d}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
-
-class Page extends React.Component{
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    return(
-      <React.Fragment>
-        <Department></Department>
-        <Project list={['P-1','P-2','P-3']}></Project>
-      </React.Fragment>
-    )
-  }
-}
-
-const element=<Page></Page>;
+const element=<Employee></Employee>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 
 //#endregion
+
