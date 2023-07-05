@@ -1598,89 +1598,160 @@
 //#region  Exe-23 - Profiler in React
 // Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
 
-import React, { Profiler } from "react";
-import  ReactDOM  from "react-dom/client";
-import reportWebVitals from "./reportWebVitals";
+// import React, { Profiler } from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals";
 
-class NewAccountsReports extends React.Component{
+// class NewAccountsReports extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state={
+//       FromDate:'',
+//       ToDate:''
+//     };
+//   }
+//   handleChange=(e)=>{
+//     let name=e.target.name;
+//     let value=e.target.value;
+    
+//     this.setState({
+//       [name]:value
+//     });
+//   }
+
+
+//   render(){
+//     return(
+//     <div>
+//       <h2>Welcome to New Account Report Component...</h2>
+//       <p>
+//         <label>From Date: <input type="text" name="FromDate" onChange={this.handleChange} value={this.state.FromDate}></input></label>
+//       </p>
+
+//       <p>
+//         <label>To Date: <input type="text" name="ToDate" onChange={this.handleChange} value={this.state.ToDate}></input></label>
+//       </p>
+//       <input type="submit" value="Generate"></input>
+//     </div>
+//     );
+//   }
+// }
+
+// class LoansRepaymentReports extends React.Component{
+
+//   constructor(props){
+//     super(props);
+//   }
+
+
+
+//   render(){
+//     return(
+//       <div>
+//         <h2>Welcome to Loans Repayment Reports Component...</h2>
+//       </div>
+//     );
+//   }
+// }
+
+// class ReportsDashboard extends React.Component{
+//   constructor(props){
+//     super(props);
+//   }
+//   callbackFunction=(id,phase,actualDuration,baseDuration, startTime,
+//     commitTime, interaction) => {
+//       console.log('Id is : '+id+', Phase is : '+phase);
+//       console.log('Actual Duration is : '+actualDuration+' and Base Duration is :'+
+//       baseDuration);
+//   }
+
+//   render(){
+//     return(
+//     <>
+//     <h2>Welcome to Report Dashboard ...</h2>
+//     <Profiler id="newAccountProfiler" onRender={this.callbackFunction}>
+//     <NewAccountsReports/>
+//     </Profiler>
+//     <Profiler id="loadRepaymentReports" onRender={this.callbackFunction}>
+//     <LoansRepaymentReports/>
+//     </Profiler>    
+//     </>
+//     );
+//   }
+// }
+
+// const element=<ReportsDashboard></ReportsDashboard>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region  Exe-24 - Render Props in React
+
+import React  from "react";
+import  ReactDOM  from "react-dom/client";
+import reportWebVitals from "./reportWebVitals"; 
+
+class Department extends React.Component{
+
   constructor(props){
     super(props);
     this.state={
-      FromDate:'',
-      ToDate:''
+      list:['Dev','Big Data','Mobility']
     };
   }
-  handleChange=(e)=>{
-    let name=e.target.name;
-    let value=e.target.value;
-    
-    this.setState({
-      [name]:value
-    });
-  }
-
-
-  render(){
-    return(
-    <div>
-      <h2>Welcome to New Account Report Component...</h2>
-      <p>
-        <label>From Date: <input type="text" name="FromDate" onChange={this.handleChange} value={this.state.FromDate}></input></label>
-      </p>
-
-      <p>
-        <label>To Date: <input type="text" name="ToDate" onChange={this.handleChange} value={this.state.ToDate}></input></label>
-      </p>
-      <input type="submit" value="Generate"></input>
-    </div>
-    );
-  }
-}
-
-class LoansRepaymentReports extends React.Component{
-
-  constructor(props){
-    super(props);
-  }
-
-
 
   render(){
     return(
       <div>
-        <h2>Welcome to Loans Repayment Reports Component...</h2>
+        <h2>Department List...</h2>
+        <ul>
+          {this.state.list.map(d=>(
+            <li key={d}>{d}</li>
+          ))}
+        </ul>
       </div>
     );
   }
 }
 
-class ReportsDashboard extends React.Component{
+class Project extends React.Component{
   constructor(props){
-    super(props);
-  }
-  callbackFunction=(id,phase,actualDuration,baseDuration, startTime,
-    commitTime, interaction) => {
-      console.log('Id is : '+id+', Phase is : '+phase);
-      console.log('Actual Duration is : '+actualDuration+' and Base Duration is :'+
-      baseDuration);
+    super(props);    
   }
 
   render(){
     return(
-    <>
-    <h2>Welcome to Report Dashboard ...</h2>
-    <Profiler id="newAccountProfiler" onRender={this.callbackFunction}>
-    <NewAccountsReports/>
-    </Profiler>
-    <Profiler id="loadRepaymentReports" onRender={this.callbackFunction}>
-    <LoansRepaymentReports/>
-    </Profiler>    
-    </>
+      <div>
+        <h2>Projects List...</h2>
+        <ul>
+          {this.props.list.map(d=>(
+            <li key={d}>{d}</li>
+          ))}
+        </ul>
+      </div>
     );
   }
 }
 
-const element=<ReportsDashboard></ReportsDashboard>;
+class Page extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
+      <React.Fragment>
+        <Department></Department>
+        <Project list={['P-1','P-2','P-3']}></Project>
+      </React.Fragment>
+    )
+  }
+}
+
+const element=<Page></Page>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
+
+//#endregion
