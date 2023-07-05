@@ -1761,16 +1761,54 @@
 //#region  Exe-26 - use State in React
 
 
+// import React,{useState}  from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals"; 
+
+// function Employee()
+// {
+//   const[name,setName]=useState('');
+
+//   function changeName(e){
+//     setName(e.target.value);
+//   }
+
+//   return(
+//     <div>
+//       <h2>Welcome to Employee Functional Component</h2>
+//       <p>
+//         <label>
+//           Employee Name:<input type="text" value={name} onChange={changeName}/>
+//         </label>
+//       </p>
+//       <p>
+//         <label>Name:{name}</label>
+//       </p>
+//     </div>
+//   )
+// }
+// const element=<Employee></Employee>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+
+//#endregion
+
+
+
+//#region  Exe-27 - Pass data from parent to child and child to parent component by using use State in React.
+
 import React,{useState}  from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals"; 
 
-function Employee()
-{
-  const[name,setName]=useState('');
-  
-  function changeName(e){
-    setName(e.target.value);
+function Employee(){
+
+  const [employee,setEmployeeData]=useState({id:'',name:'',location:'',salary:''}); 
+
+  function changeEmployeeInfo(e){
+    console.log(e);
+    setEmployeeData({...employee,[e.target.name]:e.target.value});
   }
 
   return(
@@ -1778,19 +1816,50 @@ function Employee()
       <h2>Welcome to Employee Functional Component</h2>
       <p>
         <label>
-          Employee Name:<input type="text" value={name} onChange={changeName}/>
+          Employee Id:<input type="text" name="id" value={employee.id} onChange={changeEmployeeInfo}></input>
         </label>
       </p>
       <p>
-        <label>Name:{name}</label>
+        <label>
+          Employee Name:<input type="text" name="name" value={employee.name} onChange={changeEmployeeInfo}/>
+        </label>
       </p>
+      <p>
+        <label>
+          Employee Location:<input type="text" name="location" value={employee.location} onChange={changeEmployeeInfo}/>
+        </label>
+      </p>
+      <p>
+        <label>
+          Employee Salary:<input type="text" name="salary" value={employee.salary} onChange={changeEmployeeInfo}/>
+        </label>
+      </p>
+      <p>
+        <label>Id:{employee.id}, Name:{employee.name}, Location:{employee.location}, Salary:{employee.salary}</label>
+      </p>
+      <SalaryComponent salary={employee.salary} changeSalary={changeEmployeeInfo} ></SalaryComponent>
     </div>
   )
 }
+
+const SalaryComponent=({salary,changeSalary})=>{
+  return(
+    <div style={{border:'3px solid red', width:'500px'}}>
+      <h2>Welcome to Salary Component</h2>
+      <p>
+        <label>Enter Salary:
+          <input type="text" name="salary" value={salary} onChange={changeSalary}></input>
+        </label>
+      </p>
+  </div>)
+}
+
+
+
+
 const element=<Employee></Employee>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
 
 //#endregion
-
