@@ -1756,6 +1756,127 @@
 
 //#endregion
 
+//#region  Exe-25 - Component Life Cycle in React.
+// call function after every 5 sec interval, but remove that interval.
+// use of ComponentDidMount and ComponentWillUnMount
+
+import React  from "react";
+import  ReactDOM  from "react-dom/client";
+import reportWebVitals from "./reportWebVitals"; 
+
+class ChangeDetection extends React.Component{
+  handle=null;
+  constructor(props){
+    super(props);
+    this.state = {
+      employeeCount:0
+    }; 
+    this.handle=setInterval(this.getEmployeesCount, 5000);
+  }
+  
+  componentDidMount(){
+    this.getEmployeesCount();
+  }
+
+  getEmployeesCount=()=>{
+    alert('Fetching the Employee Count from the REST API');
+    fetch("http://localhost:7037/api/Employee")
+      .then(res => res.json())
+      .then(
+        (result) => {          
+          this.setState({
+            employeeCount: result.length
+          });
+        }
+      );
+  }
+  componentWillUnmount(){
+    clearInterval(this.handle)
+  }
+
+  showReports=()=>{  
+    root.render(<Reports></Reports>);    
+  }
+  render() {
+    return (
+      <div>
+        <h2>Welcome to Component Lifecycle Methods Demonstration...</h2>
+        <p>
+          <label>Number of Employees are : <b>{this.state.employeeCount}</b></label>
+        </p>
+        <button onClick={this.showReports}>Show Reports</button>
+        </div>
+      );
+    }
+}
+
+class Reports extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      employees:[]
+    };
+  } 
+
+   componentDidMount=() => {
+      this.getEmployees();    
+  }
+
+   getEmployees() {
+    fetch("http://localhost:7037/api/Employee")
+      .then(res => res.json())
+      .then(
+        (result) => {          
+          this.setState({
+            employees: result
+          });
+        }
+      );
+  }
+
+  loadEmployees=()=>{
+    this.getEmployees();
+  }
+  render() {
+    return (
+      <div>
+        <h2>Employees Data...</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+          {this.state.employees.map(emp => (
+            <tr key={emp.employeeId}>
+              <td>{emp.employeeId}</td>
+              <td>{emp.name}</td>
+              <td>{emp.location}</td>
+              <td>{emp.salary}</td>
+              </tr>
+          ))}
+          </tbody>
+        </table>
+        <p>
+          <button onClick={this.loadEmployees}>Reload</button>
+        </p>
+        </div>
+      );
+    }
+}
+
+
+const element=<ChangeDetection></ChangeDetection>;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(element);
+reportWebVitals();
+
+//#endregion
+
 //------------------Functional Components------------------------//
 
 //#region  Exe-26 - use State in React
@@ -1796,70 +1917,70 @@
 
 
 
-//#region  Exe-27 - Pass data from parent to child and child to parent component by using use State in React.
+//#region  Exe-27 - functional components- Pass data from parent to child and child to parent component by using use State in React.
 
-import React,{useState}  from "react";
-import  ReactDOM  from "react-dom/client";
-import reportWebVitals from "./reportWebVitals"; 
+// import React,{useState}  from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals"; 
 
-function Employee(){
+// function Employee(){
 
-  const [employee,setEmployeeData]=useState({id:'',name:'',location:'',salary:''}); 
+//   const [employee,setEmployeeData]=useState({id:'',name:'',location:'',salary:''}); 
 
-  function changeEmployeeInfo(e){
-    console.log(e);
-    setEmployeeData({...employee,[e.target.name]:e.target.value});
-  }
+//   function changeEmployeeInfo(e){
+//     console.log(e);
+//     setEmployeeData({...employee,[e.target.name]:e.target.value});
+//   }
 
-  return(
-    <div>
-      <h2>Welcome to Employee Functional Component</h2>
-      <p>
-        <label>
-          Employee Id:<input type="text" name="id" value={employee.id} onChange={changeEmployeeInfo}></input>
-        </label>
-      </p>
-      <p>
-        <label>
-          Employee Name:<input type="text" name="name" value={employee.name} onChange={changeEmployeeInfo}/>
-        </label>
-      </p>
-      <p>
-        <label>
-          Employee Location:<input type="text" name="location" value={employee.location} onChange={changeEmployeeInfo}/>
-        </label>
-      </p>
-      <p>
-        <label>
-          Employee Salary:<input type="text" name="salary" value={employee.salary} onChange={changeEmployeeInfo}/>
-        </label>
-      </p>
-      <p>
-        <label>Id:{employee.id}, Name:{employee.name}, Location:{employee.location}, Salary:{employee.salary}</label>
-      </p>
-      <SalaryComponent salary={employee.salary} changeSalary={changeEmployeeInfo} ></SalaryComponent>
-    </div>
-  )
-}
+//   return(
+//     <div>
+//       <h2>Welcome to Employee Functional Component</h2>
+//       <p>
+//         <label>
+//           Employee Id:<input type="text" name="id" value={employee.id} onChange={changeEmployeeInfo}></input>
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Employee Name:<input type="text" name="name" value={employee.name} onChange={changeEmployeeInfo}/>
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Employee Location:<input type="text" name="location" value={employee.location} onChange={changeEmployeeInfo}/>
+//         </label>
+//       </p>
+//       <p>
+//         <label>
+//           Employee Salary:<input type="text" name="salary" value={employee.salary} onChange={changeEmployeeInfo}/>
+//         </label>
+//       </p>
+//       <p>
+//         <label>Id:{employee.id}, Name:{employee.name}, Location:{employee.location}, Salary:{employee.salary}</label>
+//       </p>
+//       <SalaryComponent salary={employee.salary} changeSalary={changeEmployeeInfo} ></SalaryComponent>
+//     </div>
+//   )
+// }
 
-const SalaryComponent=({salary,changeSalary})=>{
-  return(
-    <div style={{border:'3px solid red', width:'500px'}}>
-      <h2>Welcome to Salary Component</h2>
-      <p>
-        <label>Enter Salary:
-          <input type="text" name="salary" value={salary} onChange={changeSalary}></input>
-        </label>
-      </p>
-  </div>)
-}
-
-
+// const SalaryComponent=({salary,changeSalary})=>{
+//   return(
+//     <div style={{border:'3px solid red', width:'500px'}}>
+//       <h2>Welcome to Salary Component</h2>
+//       <p>
+//         <label>Enter Salary:
+//           <input type="text" name="salary" value={salary} onChange={changeSalary}></input>
+//         </label>
+//       </p>
+//   </div>)
+// }
 
 
-const element=<Employee></Employee>;
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(element);
-reportWebVitals();
+
+
+// const element=<Employee></Employee>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
 
 //#endregion
