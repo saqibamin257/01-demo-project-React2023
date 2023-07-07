@@ -1989,54 +1989,54 @@
 //#region Exe-28 - UseEffect Basics
 //We can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined. 
 
-import React,{useState,useEffect}  from "react";
-import  ReactDOM  from "react-dom/client";
-import reportWebVitals from "./reportWebVitals"; 
+// import React,{useState,useEffect}  from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals"; 
 
-function Employee(){
+// function Employee(){
 
-  const[employees,setEmployees] = useState([]);  
+//   const[employees,setEmployees] = useState([]);  
   
-  useEffect(()=>{
-    alert('we are in useEffect function')
-    fetch("http://localhost:7037/api/Employee")
-    .then(res => res.json())
-    .then(
-      (result)=>{
-        setEmployees(result);
-      }
-    );
-  },[]);  // we have given the empty array here to make sure, whenever there is change in the array then only rerender the component.
-          //otherwise it will be showing alert message infinite times.
+//   useEffect(()=>{
+//     alert('we are in useEffect function')
+//     fetch("http://localhost:7037/api/Employee")
+//     .then(res => res.json())
+//     .then(
+//       (result)=>{
+//         setEmployees(result);
+//       }
+//     );
+//   },[]);  // we have given the empty array here to make sure, whenever there is change in the array then only rerender the component.
+//           //otherwise it will be showing alert message infinite times.
   
-  return(    
-      <div>
-      <h2>Employees Data...</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Salary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map(emp=>(
-            <tr key={emp.employeeId}>
-              <td>{emp.employeeId}</td>
-              <td>{emp.name}</td>
-              <td>{emp.location}</td>
-              <td>{emp.salary}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>)
-}
+//   return(    
+//       <div>
+//       <h2>Employees Data...</h2>
+//       <table>
+//         <thead>
+//           <tr>
+//             <th>Id</th>
+//             <th>Name</th>
+//             <th>Location</th>
+//             <th>Salary</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {employees.map(emp=>(
+//             <tr key={emp.employeeId}>
+//               <td>{emp.employeeId}</td>
+//               <td>{emp.name}</td>
+//               <td>{emp.location}</td>
+//               <td>{emp.salary}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>)
+// }
 
-const element=<Employee></Employee>;
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(element);
-reportWebVitals();
+// const element=<Employee></Employee>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
 //#endregion
