@@ -1878,8 +1878,8 @@
 //#endregion
 
 //------------------Functional Components------------------------//
-
-//#region  Exe-26 - use State in React
+//------------------Hooks--------------------------------------//
+//#region  Exe-26 - use State Hook in React
 
 
 // import React,{useState}  from "react";
@@ -1917,7 +1917,7 @@
 
 
 
-//#region  Exe-27 - functional components - Pass data from parent to child and child to parent component by using use State in React.
+//#region  Exe-27 - functional components - Pass data from parent to child and child to parent component by using use State Hook in React.
 
 // import React,{useState}  from "react";
 // import  ReactDOM  from "react-dom/client";
@@ -1986,7 +1986,7 @@
 //#endregion
 
 
-//#region Exe-28 - UseEffect Basics
+//#region Exe-28 - UseEffect Hook Basics
 //We can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined. 
 
 // import React,{useState,useEffect}  from "react";
@@ -2042,7 +2042,7 @@
 //#endregion
 
 
-//#region Exe-29 - UseEffect 2
+//#region Exe-29 - UseEffect Hook 2
 // create Search textbox and rerender the component on searchtext.
 // useEffect will be called on state change, and change the state on onChange event of textbox 
 
@@ -2112,78 +2112,132 @@
 //#endregion
 
 
-//#region Exe-30 - UseEffect 2
+//#region Exe-30 - UseEffect Hook 2
 // create two useEffect for separate calls
 
-import React,{useState,useEffect}  from "react";
+// import React,{useState,useEffect}  from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals"; 
+
+// function Employee(){
+
+// const[employeeCount,setEmployeeCount]=useState(0);
+// const[noOfDepartments,setNoOfDepartments]=useState(0);
+
+
+// // UseEffect to get Employee data with interval
+// useEffect(()=>{
+//   alert('coming from first Effect.');
+//   var handle=setInterval(getEmployeesCount,5000);
+//   return ()=>{
+//     clearInterval(handle);
+//   }
+// });
+
+// // UseEffect to get Deparment data
+// useEffect(()=>{
+//   alert('coming from second Effect.');
+//   fetch("http://localhost:7037/api/Department")
+//   .then(res => res.json())
+//   .then(
+//     (result) => {          
+//       setNoOfDepartments(result.length);
+//     }
+//   );
+// })
+
+
+
+// function getEmployeesCount(){
+//   //alert('Getting the Employees Count');
+//   fetch("http://localhost:7037/api/Employee")
+//     .then(res => res.json())
+//     .then(
+//       (result) => {          
+//         setEmployeeCount(result.length);
+//       }
+//     );
+// }
+
+// function navigateToDepartment(){
+//   root.render(<Department></Department>);    
+// }
+// return(
+//   <div>
+//       <h2>Welcome to Employee Component...</h2>
+//       <p>
+//         <label>Employee Count : <b>{employeeCount}</b></label>
+//       </p>
+//       <p>
+//         <label>Total Department are : <b>{noOfDepartments}</b></label>
+//       </p>
+//       <button onClick={navigateToDepartment}>Departments</button>
+//     </div>
+// );
+// }
+
+// function Department(){
+//   return(<div>
+//     Welcome to Department
+//   </div>);
+// }
+
+// const element=<Employee></Employee>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
+//#endregion
+
+//#region Exe-31 - UseContext Hook Basics
+
+import React,{useState,useEffect,useContext}  from "react";
 import  ReactDOM  from "react-dom/client";
 import reportWebVitals from "./reportWebVitals"; 
 
-function Employee(){
-
-const[employeeCount,setEmployeeCount]=useState(0);
-const[noOfDepartments,setNoOfDepartments]=useState(0);
-
-
-// UseEffect to get Employee data with interval
-useEffect(()=>{
-  alert('coming from first Effect.');
-  var handle=setInterval(getEmployeesCount,5000);
-  return ()=>{
-    clearInterval(handle);
+const employeeContext =React.createContext();
+function App(){
+  const[employee,setEmployee] = useState({Id:109,Name:'Saqib',Location:'karachi',Salary:4000})
+  
+  return(<div>
+    <h2>Welcome to App Component...</h2>
+    <employeeContext.Provider value={employee}>
+      <Employee></Employee>
+    </employeeContext.Provider>
+  </div>)
   }
-});
 
-// UseEffect to get Deparment data
-useEffect(()=>{
-  alert('coming from second Effect.');
-  fetch("http://localhost:7037/api/Department")
-  .then(res => res.json())
-  .then(
-    (result) => {          
-      setNoOfDepartments(result.length);
-    }
-  );
-})
-
-
-
-function getEmployeesCount(){
-  //alert('Getting the Employees Count');
-  fetch("http://localhost:7037/api/Employee")
-    .then(res => res.json())
-    .then(
-      (result) => {          
-        setEmployeeCount(result.length);
-      }
-    );
-}
-
-function navigateToDepartment(){
-  root.render(<Department></Department>);    
-}
+function Employee(){
+let context=useContext(employeeContext);
 return(
   <div>
-      <h2>Welcome to Employee Component...</h2>
-      <p>
-        <label>Employee Count : <b>{employeeCount}</b></label>
-      </p>
-      <p>
-        <label>Total Department are : <b>{noOfDepartments}</b></label>
-      </p>
-      <button onClick={navigateToDepartment}>Departments</button>
-    </div>
-);
+    <h2>Welcome to Employee Component ...</h2>
+    <p>
+      <label>Employee ID : <b>{context.Id}</b></label>
+    </p>
+    <p>
+      <label>Employee Name : <b>{context.Name}</b></label>
+    </p>
+    <Salary></Salary>
+  </div>
+)
 }
 
-function Department(){
-  return(<div>
-    Welcome to Department
-  </div>);
+function Salary(){
+let context=useContext(employeeContext);
+return(<div>
+  <h2>Welcome to Salary Component...</h2>
+  <p>
+    <label>Employee ID: <b>{context.Id}</b></label>
+  </p>
+  <p>
+    <label>Employee Name: <b>{context.Salary}</b></label>
+  </p>
+</div>);
 }
 
-const element=<Employee></Employee>;
+const element=<App></App>;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(element);
 reportWebVitals();
+
 //#endregion
