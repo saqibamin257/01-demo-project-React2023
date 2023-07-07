@@ -2040,3 +2040,73 @@
 // root.render(element);
 // reportWebVitals();
 //#endregion
+
+
+//#region Exe-29 - UseEffect 2
+// create Search textbox and rerender the component on searchtext.
+// useEffect will be called on state change, and change the state on onChange event of textbox 
+
+import React,{useState,useEffect}  from "react";
+import  ReactDOM  from "react-dom/client";
+import reportWebVitals from "./reportWebVitals"; 
+
+function Employee(){
+
+  const[employees,setEmployees] = useState([]);
+  const[searchText,setSearchText]=useState('');  
+  
+  useEffect(()=>{
+    //alert('we are in useEffect function')
+    fetch("http://localhost:7037/api/Employee/"+searchText)
+    .then(res => res.json())
+    .then(
+      (result)=>{
+        setEmployees(result);
+      }
+    );
+  },[searchText]); // here we can add the list of attributes which cause the rerendering. When searcText is changed get the data from api on every alphabet.
+                   // runtime search
+          
+  
+
+  function onSearchTextChange(e){
+    setSearchText(e.target.value);
+  }
+
+  return(    
+      <div>
+      <h2>Employees Data...</h2>
+      <p>
+        <label>
+        <input type="text" value={searchText} onChange={onSearchTextChange}></input>
+        </label>
+      </p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Salary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map(emp=>(
+            <tr key={emp.employeeId}>
+              <td>{emp.employeeId}</td>
+              <td>{emp.name}</td>
+              <td>{emp.location}</td>
+              <td>{emp.salary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>)
+}
+
+const element=<Employee></Employee>;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(element);
+reportWebVitals();
+//#endregion
