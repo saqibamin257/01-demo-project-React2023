@@ -1760,120 +1760,120 @@
 // call function after every 5 sec interval, but remove that interval.
 // use of ComponentDidMount and ComponentWillUnMount
 
-import React  from "react";
-import  ReactDOM  from "react-dom/client";
-import reportWebVitals from "./reportWebVitals"; 
+// import React  from "react";
+// import  ReactDOM  from "react-dom/client";
+// import reportWebVitals from "./reportWebVitals"; 
 
-class ChangeDetection extends React.Component{
-  handle=null;
-  constructor(props){
-    super(props);
-    this.state = {
-      employeeCount:0
-    }; 
-    this.handle=setInterval(this.getEmployeesCount, 5000);
-  }
+// class ChangeDetection extends React.Component{
+//   handle=null;
+//   constructor(props){
+//     super(props);
+//     this.state = {
+//       employeeCount:0
+//     }; 
+//     this.handle=setInterval(this.getEmployeesCount, 5000);
+//   }
   
-  componentDidMount(){
-    this.getEmployeesCount();
-  }
+//   componentDidMount(){
+//     this.getEmployeesCount();
+//   }
 
-  getEmployeesCount=()=>{
-    alert('Fetching the Employee Count from the REST API');
-    fetch("http://localhost:7037/api/Employee")
-      .then(res => res.json())
-      .then(
-        (result) => {          
-          this.setState({
-            employeeCount: result.length
-          });
-        }
-      );
-  }
-  componentWillUnmount(){
-    clearInterval(this.handle)
-  }
+//   getEmployeesCount=()=>{
+//     alert('Fetching the Employee Count from the REST API');
+//     fetch("http://localhost:7037/api/Employee")
+//       .then(res => res.json())
+//       .then(
+//         (result) => {          
+//           this.setState({
+//             employeeCount: result.length
+//           });
+//         }
+//       );
+//   }
+//   componentWillUnmount(){
+//     clearInterval(this.handle)
+//   }
 
-  showReports=()=>{  
-    root.render(<Reports></Reports>);    
-  }
-  render() {
-    return (
-      <div>
-        <h2>Welcome to Component Lifecycle Methods Demonstration...</h2>
-        <p>
-          <label>Number of Employees are : <b>{this.state.employeeCount}</b></label>
-        </p>
-        <button onClick={this.showReports}>Show Reports</button>
-        </div>
-      );
-    }
-}
+//   showReports=()=>{  
+//     root.render(<Reports></Reports>);    
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <h2>Welcome to Component Lifecycle Methods Demonstration...</h2>
+//         <p>
+//           <label>Number of Employees are : <b>{this.state.employeeCount}</b></label>
+//         </p>
+//         <button onClick={this.showReports}>Show Reports</button>
+//         </div>
+//       );
+//     }
+// }
 
-class Reports extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      employees:[]
-    };
-  } 
+// class Reports extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       employees:[]
+//     };
+//   } 
 
-   componentDidMount=() => {
-      this.getEmployees();    
-  }
+//    componentDidMount=() => {
+//       this.getEmployees();    
+//   }
 
-   getEmployees() {
-    fetch("http://localhost:7037/api/Employee")
-      .then(res => res.json())
-      .then(
-        (result) => {          
-          this.setState({
-            employees: result
-          });
-        }
-      );
-  }
+//    getEmployees() {
+//     fetch("http://localhost:7037/api/Employee")
+//       .then(res => res.json())
+//       .then(
+//         (result) => {          
+//           this.setState({
+//             employees: result
+//           });
+//         }
+//       );
+//   }
 
-  loadEmployees=()=>{
-    this.getEmployees();
-  }
-  render() {
-    return (
-      <div>
-        <h2>Employees Data...</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Location</th>
-              <th>Salary</th>
-            </tr>
-          </thead>
-          <tbody>
-          {this.state.employees.map(emp => (
-            <tr key={emp.employeeId}>
-              <td>{emp.employeeId}</td>
-              <td>{emp.name}</td>
-              <td>{emp.location}</td>
-              <td>{emp.salary}</td>
-              </tr>
-          ))}
-          </tbody>
-        </table>
-        <p>
-          <button onClick={this.loadEmployees}>Reload</button>
-        </p>
-        </div>
-      );
-    }
-}
+//   loadEmployees=()=>{
+//     this.getEmployees();
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <h2>Employees Data...</h2>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>Id</th>
+//               <th>Name</th>
+//               <th>Location</th>
+//               <th>Salary</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//           {this.state.employees.map(emp => (
+//             <tr key={emp.employeeId}>
+//               <td>{emp.employeeId}</td>
+//               <td>{emp.name}</td>
+//               <td>{emp.location}</td>
+//               <td>{emp.salary}</td>
+//               </tr>
+//           ))}
+//           </tbody>
+//         </table>
+//         <p>
+//           <button onClick={this.loadEmployees}>Reload</button>
+//         </p>
+//         </div>
+//       );
+//     }
+// }
 
 
-const element=<ChangeDetection></ChangeDetection>;
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(element);
-reportWebVitals();
+// const element=<ChangeDetection></ChangeDetection>;
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(element);
+// reportWebVitals();
 
 //#endregion
 
@@ -1917,7 +1917,7 @@ reportWebVitals();
 
 
 
-//#region  Exe-27 - functional components- Pass data from parent to child and child to parent component by using use State in React.
+//#region  Exe-27 - functional components - Pass data from parent to child and child to parent component by using use State in React.
 
 // import React,{useState}  from "react";
 // import  ReactDOM  from "react-dom/client";
@@ -1983,4 +1983,60 @@ reportWebVitals();
 // root.render(element);
 // reportWebVitals();
 
+//#endregion
+
+
+//#region Exe-28 - UseEffect Basics
+//We can think of useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined. 
+
+import React,{useState,useEffect}  from "react";
+import  ReactDOM  from "react-dom/client";
+import reportWebVitals from "./reportWebVitals"; 
+
+function Employee(){
+
+  const[employees,setEmployees] = useState([]);  
+  
+  useEffect(()=>{
+    alert('we are in useEffect function')
+    fetch("http://localhost:7037/api/Employee")
+    .then(res => res.json())
+    .then(
+      (result)=>{
+        setEmployees(result);
+      }
+    );
+  },[]);  // we have given the empty array here to make sure, whenever there is change in the array then only rerender the component.
+          //otherwise it will be showing alert message infinite times.
+  
+  return(    
+      <div>
+      <h2>Employees Data...</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Salary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map(emp=>(
+            <tr key={emp.employeeId}>
+              <td>{emp.employeeId}</td>
+              <td>{emp.name}</td>
+              <td>{emp.location}</td>
+              <td>{emp.salary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>)
+}
+
+const element=<Employee></Employee>;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(element);
+reportWebVitals();
 //#endregion
